@@ -1,0 +1,19 @@
+# we want ot use --forks since logical systems commits make conflicts 
+# ansible-playbook playbooks/juniper/logical_systems_ips.yml --forks 1
+
+- name: juniper logical system root host
+  hosts: juniper_logical_systems
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Set interfaces addresses
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        check_commit_wait: 5
+        lines:
+          - set interfaces {{ item.name }} family inet address {{ item.inet }}
+      loop: "{{ interfaces }}"
+      tags:
+       - ia

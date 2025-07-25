@@ -1,0 +1,8 @@
+- name: vjunos hosts os pkg's
+  hosts: vjunos_linux
+
+  tasks:
+    - name: Install os packages
+      ansible.builtin.package:
+        name: "{{ vjunos_lan_pkgs }}"
+        state: present

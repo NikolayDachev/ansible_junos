@@ -1,0 +1,57 @@
+#  !!!! begore this playbook, generate certificates with >>>  ansible-playbook playbooks/small_ca/create_certs.yml
+# ansible-playbook playbooks/vjhost/ros/ros_enable_api.yml
+
+- name: Install certificates on ROS devices
+  hosts: vjunos_ros
+  gather_facts: false
+  tasks:
+    - block:
+        - set_fact:
+            random_password: "{{ lookup('community.general.random_string', length=32, override_all='0123456789abcdefghijklmnopqrstuvwxyz') }}"
+
+        - name: Create PKCS#12 bundle
+          openssl_pkcs12:
+            path: "{{ small_ca_cert.path }}/{{ inventory_hostname }}.p12"
+            certificate_path: "{{ small_ca_cert.path }}/{{ inventory_hostname }}.pem"
+            privatekey_path: "{{ small_ca_cert.path }}/{{ inventory_hostname }}.key"
+            friendly_name: "{{ inventory_hostname }}"
+            passphrase: "{{ random_password }}"
+            mode: "0600"
+          changed_when: false
+          delegate_to: localhost
+
+        - name: Copy router certificate onto router
+          ansible.netcommon.net_put:
+            src: "{{ small_ca_cert.path }}/{{ inventory_hostname }}.p12"
+            dest: "{{ inventory_hostname }}.p12"
+
+        - name: Install router certificate and clean up
+          community.routeros.command:
+            commands:
+              # Import certificate:
+              - /certificate import name={{ inventory_hostname }} file-name={{ inventory_hostname }}.p12 passphrase="{{ random_password }}"
+              # Remove PKCS12 bundle:
+              - /file remove {{ inventory_hostname }}.p12
+              # Show certificates
+              - /certificate print
+          register: output
+
+        - name: Show result of certificate import
+          debug:
+            var: output.stdout_lines[0]
+
+        - name: Show certificates
+          debug:
+            var: output.stdout_lines[2]
+
+      always:
+        - name: rm PKCS12 bundle
+          command: rm -rf "{{ small_ca_cert.path }}/{{ inventory_hostname }}.p12"
+          changed_when: false
+          delegate_to: localhost
+
+    - name: Use certificate
+      community.routeros.command:
+        commands:
+          - /ip service set www-ssl address={{ admin_network }} certificate={{ inventory_hostname }} disabled=no tls-version=only-1.2
+          - /ip service set api-ssl address={{ admin_network }} certificate={{ inventory_hostname }} tls-version=only-1.2

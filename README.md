@@ -1,2 +1,23 @@
-# ansible_junos
-Ansible automation for junos
+## Init Ansible for juniper 
+
+### Init ansible direcotries and files (if missed)
+`juniper/ansible> ./setup_ansible.sh init_ansible`
+
+### Init ansible python venv
+`juniper/ansible> ./setup_ansible.sh init_venv`
+
+### Ansible vault passowrd
+`juniper/ansible> cat .local/.vaultpwd`
+
+### Install junos collection 
+For more details please check [Jiniper device ansible collection](https://galaxy.ansible.com/ui/repo/published/juniper/device/)
+`juniper/ansible> ansible-galaxy collection install juniper.device`
+
+### Patch junos collection 'LooseVersion' is not used in python 3.13+
+```
+sed -i \
+  -e 's/from looseversion import LooseVersion/from packaging.version import Version as LooseVersion/' \
+  -e 's/from distutils.version import LooseVersion/from packaging.version import Version as LooseVersion/' \
+  collections/ansible_collections/juniper/device/plugins/module_utils/configuration.py
+```
+

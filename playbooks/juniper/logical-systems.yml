@@ -1,0 +1,36 @@
+# ansible-playbook playbooks/juniper/logical-systems.yml
+
+- name: juniper logical-systems
+  hosts: juniper
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Build list of set commands users and login class
+      ansible.builtin.set_fact:
+        set_commands: "{{ set_commands | default([]) + [
+          'set system login class ' ~ item.class ~ ' logical-system ' ~ item.name,
+          'set system login class ' ~ item.class ~ ' permissions all',
+          'set system login user ' ~ item.username ~ ' class ' ~ item.class,
+          'set system login user ' ~ item.username ~ ' authentication encrypted-password \"' ~ (item.password | password_hash('sha512')) ~ '\"'
+        ] }}"
+        ssh_login_info: "{{ ssh_login_info | default([]) + [ 'ssh ' ~ item.name ~ '@' ~ inventory_hostname ] }}"
+      loop: "{{ junos_logical_systems }}"
+
+    - name: Build list of set commands interfaces in logical system
+      ansible.builtin.set_fact:
+        set_commands: "{{ set_commands | default([]) + [
+          'set logical-systems ' ~ item.0.name ~ ' interfaces ' ~ item.1
+        ] }}"
+      with_subelements:
+        - "{{ junos_logical_systems }}"
+        - interfaces
+
+    - name: Load Set commands tasks
+      import_tasks: tasks/load_set_commands.yml
+
+    - name: Logycal system ssh login info
+      ansible.builtin.debug:
+        msg:
+          - "SSH Login info:" 
+          - "{{ ssh_login_info }}"

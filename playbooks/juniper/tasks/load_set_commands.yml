@@ -1,0 +1,11 @@
+- name: Show set commands
+  ansible.builtin.debug:
+    msg: "{{ set_commands }}"
+
+- name: Load Set commands
+  juniper.device.config:
+    load: set
+    lines: "{{ set_commands }}"
+    commit: true
+    check_commit_wait: 10
+    timeout: 60

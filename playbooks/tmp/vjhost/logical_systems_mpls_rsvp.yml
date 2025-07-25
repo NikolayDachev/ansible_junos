@@ -1,0 +1,40 @@
+# we want ot use --forks since logical systems commits make conflicts 
+# ansible-playbook playbooks/juniper/logical_systems_mpls_rsvp.yml --forks 1
+
+- name: juniper logical system MPLS RSVP
+  hosts: juniper_logical_systems
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Set interfaces MPLS
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        lines:
+          - set interfaces {{ item }} family mpls
+          - set protocols mpls interface {{ item }}
+      loop: "{{ mpls.interfaces }}"
+      tags:
+       - impls
+
+    - name: Set interfaces RSVP
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        lines:
+          - set protocols rsvp interface {{ item }}
+      loop: "{{ rsvp.interfaces }}"
+      tags:
+       - irsvp
+
+    - name: Set MPLS LSP
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        lines:
+          - set protocols mpls label-switched-path {{ item }}
+      loop: "{{ mpls.lsp }}"
+      when: "'lsp' in mpls.keys()"
+      tags:
+       - lsp

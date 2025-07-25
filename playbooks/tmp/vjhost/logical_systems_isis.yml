@@ -1,0 +1,28 @@
+# we want ot use --forks since logical systems commits make conflicts 
+# ansible-playbook playbooks/juniper/logical_systems_isis.yml --forks 1
+
+- name: juniper logical system isis
+  hosts: juniper_logical_systems
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Set interfaces isis family
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        lines:
+          - set interfaces {{ item }} family iso
+          - set protocols isis interface {{ item }} point-to-point
+      loop: "{{ isis.interfaces }}"
+      tags:
+       - isis_iso
+
+    - name: Set interfaces isis addr
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        lines:
+          - set interfaces {{ isis.iso.int }} family iso address {{ isis.iso.addr }}
+      tags:
+       - isis_addr

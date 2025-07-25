@@ -1,0 +1,49 @@
+- name: vjunos ISC DHCP configuration
+  hosts: vjunos_linux
+
+  tasks:
+   - name: Install, configure, and start ISC DHCP
+     when: dhcpd is defined
+     block:
+      - name: Install ISC DHCP package
+        ansible.builtin.package:
+          name: dhcp-server
+          state: present
+  
+      - name: Set the DHCP server deamon config
+        vars:
+          dhcp_syscfg:
+            - regexp: '^DHCPD_RUN_CHROOTED="yes"'
+              line: 'DHCPD_RUN_CHROOTED="not"'
+            - regexp: '^DHCPD_INTERFACE=""'
+              line: 'DHCPD_INTERFACE="{{ dhcpd.interface }}"'
+            - regexp: '^DHCPD_RUN_AS="dhcpd"'
+              line: 'DHCPD_RUN_AS="root"'
+        ansible.builtin.lineinfile:
+          path: /etc/sysconfig/dhcpd
+          regexp: '{{ item.regexp }}' 
+          line: '{{ item.line }}'
+          state: present
+        loop: "{{ dhcp_syscfg }}"
+
+      - name: Configure ISC DHCP server
+        ansible.builtin.template:
+          src: ../../files/vjhost/dhcpd.conf.j2
+          dest: /etc/dhcpd.conf
+          mode: '0644'
+          owner: root
+          group: root
+        notify:
+          - Restart ISC DHCP service
+
+      - name: Restart and enable ISC DHCP service
+        ansible.builtin.service:
+          name: dhcpd
+          state: started
+          enabled: true
+
+  handlers:
+    - name: Restart ISC DHCP service
+      ansible.builtin.service:
+        name: dhcpd
+        state: restarted

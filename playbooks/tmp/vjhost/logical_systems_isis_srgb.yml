@@ -1,0 +1,21 @@
+# we want ot use --forks since logical systems commits make conflicts 
+# ansible-playbook playbooks/juniper/logical_systems_isis_srgb.yml --forks 1
+
+- name: juniper logical system isis SRGB
+  hosts: juniper_logical_systems
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Set SRGB isis 
+      juniper.device.config:
+        load: 'set'
+        commit: true
+        lines:
+          - set protocols isis source-packet-routing srgb start-label {{ srgb_start_label }}
+          - set protocols isis source-packet-routing srgb index-range {{ srgb_index_range }}
+          - set protocols isis source-packet-routing node-segment ipv4-index {{ srgb.node_segment_ipv4_index }}
+          - set protocols isis source-packet-routing node-segment ipv6-index {{ srgb.node_segment_ipv6_index }}
+          - set protocols isis level 1 disable
+      tags:
+       - isis_srgb

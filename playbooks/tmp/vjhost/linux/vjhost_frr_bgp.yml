@@ -1,0 +1,41 @@
+- name: vjunos bgp configuration
+  hosts: vjunos_linux
+
+  tasks:
+   - name: Install, configure, and start FRR 
+     when: vjhost_frr_enable is true
+     block:
+       - name: Install FRR
+         ansible.builtin.package:
+           name: "frr"
+           state: present
+
+       - name: Create FRR configuration file
+         ansible.builtin.template:
+           src: ../../files/vjhost/frr.conf.j2
+           dest: /etc/frr/frr.conf
+           owner: frr
+           group: frr
+           mode: 0644
+         notify:
+           - Restart FRR Service
+
+       - name: Enable BGP in FRR config
+         ansible.builtin.lineinfile:
+           path: /etc/frr/daemons
+           regexp: '^bgpd=no'
+           line: 'bgpd=yes'
+         notify:
+           - Restart FRR Service
+
+       - name: Ensure FRR service is running
+         ansible.builtin.service:
+           name: frr
+           state: started
+           enabled: true
+
+  handlers:
+    - name: Restart FRR Service
+      ansible.builtin.service:
+        name: frr
+        state: restarted

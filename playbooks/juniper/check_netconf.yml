@@ -1,0 +1,11 @@
+- name: juniper
+  hosts: juniper
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - name: Checking NETCONF connectivity
+      wait_for: 
+        host: "{{ ansible_host }}"
+        port: 830 
+        timeout: 5
