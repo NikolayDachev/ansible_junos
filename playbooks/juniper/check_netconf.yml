@@ -1,3 +1,5 @@
+# ansible-playbook playbooks/juniper/check_netconf.yml
+
 - name: juniper
   hosts: juniper
   gather_facts: no
