@@ -1,2 +1,0 @@
-junos_tunnel_services_bandwidth: 1g
-junos_tunnel_int: "lt-0/0/10"

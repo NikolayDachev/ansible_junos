@@ -1,8 +1,0 @@
-vjunos_lan_pkgs:
-  - mc
-  - traceroute
-  - mtr
-  - tcpdump
-
-vjhost_frr_password: "1q2w3e"
-vjhost_frr_enable_pwd: "1q2w3e"

@@ -1,5 +1,0 @@
-l2vpn_ce_int:
-  - ce_int: "ge-0/0/1"
-    ce_int_unit: 0
-  - ce_int: "ge-0/0/3"
-    ce_int_unit: 0
