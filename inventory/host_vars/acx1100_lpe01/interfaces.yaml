@@ -9,10 +9,10 @@ junos_interfaces:
       - unit 0 family inet address 10.0.15.1/30
   - name: ge-0/0/4
     config:
-      - unit 101 description acx-ce101.sof.dachev.lan
+      - unit 101 description acx-ce101.lab.dachev.lan
       - unit 101 vlan-id 101
       - unit 101 family inet address 192.168.101.1/30
-      - unit 201 description acx-ce201.sof.dachev.lan
+      - unit 201 description acx-ce201.lab.dachev.lan
       - unit 201 vlan-id 201
       - unit 201 family inet address 192.168.201.1/30
 

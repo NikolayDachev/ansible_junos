@@ -6,13 +6,13 @@ all:
 
     acx1100:
       hosts:
-        acx1100-mgmt.sof.dachev.lan:
+        acx1100-mgmt.lab.dachev.lan:
           ansible_user: admin
           ansible_password: "{{ vault_junos_common_pass }}"
 
     acx1100_logical_systems:
       vars:
-        ansible_host: acx1100-mgmt.sof.dachev.lan
+        ansible_host: acx1100-mgmt.lab.dachev.lan
         ansible_user: admin
         ansible_password: "{{ vault_junos_common_pass }}"
         set_ls: ""
@@ -28,7 +28,7 @@ all:
         acx1100_lp03:
           logical_system: "lp03"
 
-    acx1100_ce_ros:
+    acx1100_ce:
       vars:
         ansible_connection: ansible.netcommon.network_cli
         ansible_network_os: community.routeros.routeros
@@ -37,7 +37,7 @@ all:
         ansible_password: "{{ vault_junos_common_pass }}"
         ansible_ssh_pass: "{{ vault_junos_common_pass }}"
       hosts:
-        acx-ce101.sof.dachev.lan:
-        acx-ce102.sof.dachev.lan:
-        acx-ce201.sof.dachev.lan:
-        acx-ce202.sof.dachev.lan:
+        acx-ce101.lab.dachev.lan:
+        acx-ce102.lab.dachev.lan:
+        acx-ce201.lab.dachev.lan:
+        acx-ce202.lab.dachev.lan:

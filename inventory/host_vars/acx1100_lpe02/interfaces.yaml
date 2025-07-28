@@ -8,9 +8,9 @@ junos_interfaces:
       - unit 0 description lp02_ge-0/0/3
   - name: ge-0/0/4
     config:
-      - unit 102 description acx-ce102.sof.dachev.lan
+      - unit 102 description acx-ce102.lab.dachev.lan
       - unit 102 vlan-id 102
       - unit 102 family inet address 192.168.102.2/30
-      - unit 202 description acx-ce202.sof.dachev.lan
+      - unit 202 description acx-ce202.lab.dachev.lan
       - unit 202 vlan-id 202
-      - unit 202 family inet address 192.168.201.1/30
+      - unit 202 family inet address 192.168.202.1/30
