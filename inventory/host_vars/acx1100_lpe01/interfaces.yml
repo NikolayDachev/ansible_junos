@@ -3,10 +3,12 @@ junos_interfaces:
     config:
       - unit 1 description {{ inventory_hostname }}-loopback
       - unit 1 family inet address {{ junos_routerid }}/32
+      - unit 1 family iso address {{ junos_isis.iso_address }}
   - name: ge-0/0/1
     config:
       - unit 0 description lp01_ge-0/0/5
       - unit 0 family inet address 10.0.15.1/30
+      - unit 0 family iso
   - name: ge-0/0/4
     config:
       - unit 101 description acx-ce101.lab.dachev.lan

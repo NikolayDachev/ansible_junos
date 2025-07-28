@@ -3,7 +3,7 @@
 # ansible-playbook playbooks/juniper/enable_ecmp.yml  -e 'group=juniper'
 # ansible-playbook playbooks/juniper/enable_ecmp.yml  -e 'group=acx1100_logical_systems' --forks 1
 
-- name: juniper interfaces
+- name: juniper ecmp
   hosts: "{{ group }}"
   gather_facts: false
   connection: local

@@ -1,9 +1,9 @@
 # we want ot use --forks since logical systems commits make conflicts 
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
-# ansible-playbook playbooks/juniper/common.yml  -e 'group=juniper'
-# ansible-playbook playbooks/juniper/common.yml  -e 'group=acx1100_logical_systems' --forks 1
+# ansible-playbook playbooks/juniper/isis.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/isis.yml  -e 'group=acx1100_logical_systems' --forks 1
 
-- name: juniper common
+- name: juniper ospf
   hosts: "{{ group }}"
   gather_facts: false
   connection: local
@@ -12,11 +12,12 @@
     - name: Load Set commands tasks
       import_tasks: tasks/set_command.yml
 
-    - name: Build list of Set commands - router id
+    - name: Build list of Set commands isis
       ansible.builtin.set_fact:
-        set_commands: "{{ set_commands | default([]) + [ 
-          set_cmd ~ 'routing-options router-id ' ~ junos_routerid
+        set_commands: "{{ set_commands | default([]) + [
+          set_cmd ~ 'protocols isis interface ' ~ item.name
         ] }}"
+      loop: "{{ junos_isis.interfaces }}"
 
     - name: Load Set commands tasks
       import_tasks: tasks/load_set_commands.yml

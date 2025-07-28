@@ -1,6 +1,6 @@
 # ansible-playbook playbooks/juniper/check_netconf.yml
 
-- name: juniper
+- name: juniper netconfig check
   hosts: juniper
   gather_facts: no
   connection: local
