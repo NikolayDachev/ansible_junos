@@ -1,0 +1,29 @@
+# we want ot use --forks since logical systems commits make conflicts 
+# set {{ group }} as extra var in order to reuse this playbook for multiple groups
+# ansible-playbook playbooks/juniper/ldp.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/ldp.yml  -e 'group=acx1100_logical_systems' --forks 1
+
+- name: juniper ldp
+  hosts: "{{ group }}"
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Load Set commands tasks
+      import_tasks: tasks/set_command.yml
+
+    - name: Build list of Set commands ldp
+      ansible.builtin.set_fact:
+        set_commands: "{{ set_commands | default([]) + [
+          set_cmd ~ 'protocols ldp interface ' ~ item.name,
+        ] }}"
+      loop: "{{ junos_ldp.interfaces }}"
+
+    - name: Build list of Set commands ldp transport-address
+      ansible.builtin.set_fact:
+        set_commands: "{{ set_commands | default([]) + [
+          set_cmd ~ 'protocols ldp transport-address ' ~ junos_ldp.transport_address
+        ] }}"
+
+    - name: Load Set commands tasks
+      import_tasks: tasks/load_set_commands.yml

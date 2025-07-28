@@ -9,13 +9,17 @@ junos_interfaces:
       - unit 0 description lpe02_ge-0/0/7
       - unit 0 family inet address 10.0.37.1/30
       - unit 0 family iso
+      - unit 0 family mpls
   - name: ge-0/0/6
     config:
       - unit 0 description lp01-ge-0/0/2
       - unit 0 family inet address 10.0.26.2/30
       - unit 0 family iso
+      - unit 0 family mpls
   - name: ge-0/1/3
     config:
       - unit 0 description lp03-ge-0/1/2
       - unit 0 family inet address 10.1.23.1/30
       - unit 0 family iso
+      - unit 0 family mpls
+

@@ -1,0 +1,4 @@
+junos_ldp:
+  transport_address: "{{ junos_routerid }}"
+  interfaces:
+    - name: ge-0/0/1.0

@@ -9,6 +9,7 @@ junos_interfaces:
       - unit 0 description lp02_ge-0/0/3
       - unit 0 family inet address 10.0.37.2/30
       - unit 0 family iso
+      - unit 0 family mpls
   - name: ge-0/0/4
     config:
       - unit 102 description acx-ce102.lab.dachev.lan
