@@ -1,7 +1,7 @@
 # we want ot use --forks since logical systems commits make conflicts 
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
-# ansible-playbook playbooks/juniper/interfaces.yml  -e 'group=juniper'
-# ansible-playbook playbooks/juniper/interfaces.yml  -e 'group=acx1100_logical_systems' --forks 1
+# ansible-playbook playbooks/juniper/enable_ecmp.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/enable_ecmp.yml  -e 'group=acx1100_logical_systems' --forks 1
 
 - name: juniper interfaces
   hosts: "{{ group }}"
@@ -12,15 +12,12 @@
     - name: Load Set commands tasks
       import_tasks: tasks/set_command.yml
 
-    - name: Build list of Set commands
+    - name: Build list of Set commands - enable ecmp
       ansible.builtin.set_fact:
         set_commands: "{{ set_commands | default([]) + [ 
-          set_cmd ~ 'interfaces ' ~ item.0.name ~ ' ' ~ item.1
+          set_cmd ~ 'policy-options policy-statement load-balancing-policy then load-balance per-packet',
+          set_cmd ~ 'routing-options forwarding-table export load-balancing-policy'
         ] }}"
-      with_subelements:
-        - "{{ junos_interfaces }}"
-        - config
 
     - name: Load Set commands tasks
       import_tasks: tasks/load_set_commands.yml
-

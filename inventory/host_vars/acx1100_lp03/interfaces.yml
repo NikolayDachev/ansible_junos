@@ -2,7 +2,7 @@ junos_interfaces:
   - name: lo0
     config:
       - unit 13 description {{ inventory_hostname }}-loopback
-      - unit 13 family inet address 10.0.0.13/32
+      - unit 13 family inet address {{ junos_routerid }}/32
   - name: ge-0/1/1
     config:
       - unit 0 description lp01-ge-0/0/1
