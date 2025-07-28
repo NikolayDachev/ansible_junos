@@ -1,0 +1,38 @@
+# we want ot use --forks since logical systems commits make conflicts 
+# set {{ group }} as extra var in order to reuse this playbook for multiple groups
+# ansible-playbook playbooks/juniper/ibgp.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/ibgp.yml  -e 'group=acx1100_logical_systems' --forks 1
+
+- name: juniper ibgp
+  hosts: "{{ group }}"
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - block:
+      - name: Load Set commands tasks
+        import_tasks: tasks/set_command.yml
+
+      - name: Build iBGP set commands
+        ansible.builtin.set_fact:
+          set_commands: "{{ set_commands | default([]) + [
+            set_cmd ~ 'protocols bgp group ' ~ junos_ibgp.group ~ ' type internal',
+            set_cmd ~ 'protocols bgp group ' ~ junos_ibgp.group ~ ' local-address ' ~ junos_ibgp.local_address,
+            set_cmd ~ 'protocols bgp group ' ~ junos_ibgp.group ~ ' neighbor ' ~ junos_ibgp.neighbor,
+            set_cmd ~ 'routing-options autonomous-system ' ~ junos_ibgp.as
+          ] }}"
+
+      - name: Build iBGP family set commands
+        ansible.builtin.set_fact:
+          set_commands: "{{ set_commands | default([]) + [
+            set_cmd ~ 'protocols bgp group ' ~ junos_ibgp.group ~ ' family ' ~ item | replace(' ', ' ')
+          ] }}"
+        when: 
+          - junos_ibgp is defined
+          - junos_ibgp.family is defined
+        loop: "{{ junos_ibgp.family }}"
+
+      - name: Load Set commands tasks
+        import_tasks: tasks/load_set_commands.yml
+
+      when: junos_ibgp is defined
