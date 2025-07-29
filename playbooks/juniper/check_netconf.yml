@@ -3,7 +3,6 @@
 - name: juniper netconfig check
   hosts: juniper
   gather_facts: no
-  connection: local
 
   tasks:
     - name: Checking NETCONF connectivity

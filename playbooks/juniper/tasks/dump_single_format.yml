@@ -1,0 +1,19 @@
+- name: Get configuration in {{ format_item.key }} format
+  juniper.device.config:
+    retrieve: committed
+    format: "{{ format_item.key }}"
+  register: config_result
+
+- name: Ensure destination folder exists
+  file:
+    path: "{{ format_item.value }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+  delegate_to: localhost
+
+- name: Write config to file on control node
+  copy:
+    content: "{{ config_result.config }}"
+    dest: "{{ format_item.value }}/{{ inventory_hostname }}_{{ date_string }}.{{ format_item.key }}"
+  delegate_to: localhost

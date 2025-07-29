@@ -1,0 +1,16 @@
+# ansible-playbook playbooks/juniper/rollback.yml  -e 'group=juniper'
+#  -e 'rollback={ config verstion (rescue default)}'
+
+- name: juniper rollback rescue
+  hosts: "{{ group }}"
+  gather_facts: false
+
+  tasks:
+    - name: Rollback to rescue configuration
+      vars:
+        rollback: "rescue"
+      juniper.device.config:
+        rollback: "{{ rollback }}"
+        commit: true
+        check_commit_wait: 10
+        timeout: 60

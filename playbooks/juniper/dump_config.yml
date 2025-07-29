@@ -1,0 +1,18 @@
+# ansible-playbook playbooks/juniper/dump_config.yml  -e 'group=juniper'
+
+- name: Dump Junos configuration in all formats
+  hosts: "{{ group }}"
+  gather_facts: no
+
+  vars:
+    date_string: "{{ lookup('pipe', 'date +%F') }}"
+    jconfig:
+      set: ../../files/junos
+      json: ../../files/junos
+
+  tasks:
+     - name: Loop over formats and call subtask
+       include_tasks: tasks/dump_single_format.yml
+       loop: "{{ jconfig | dict2items }}"
+       loop_control:
+         loop_var: format_item

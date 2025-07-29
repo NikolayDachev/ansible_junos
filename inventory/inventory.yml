@@ -9,12 +9,15 @@ all:
         acx1100-mgmt.lab.dachev.lan:
           ansible_user: admin
           ansible_password: "{{ vault_junos_common_pass }}"
+          ansible_host: 192.168.3.109
+          ansible_connection: juniper.device.pyez
 
     acx1100_logical_systems:
       vars:
-        ansible_host: acx1100-mgmt.lab.dachev.lan
+        ansible_host: 192.168.3.109
         ansible_user: admin
         ansible_password: "{{ vault_junos_common_pass }}"
+        ansible_connection: juniper.device.pyez
         set_ls: ""
       hosts:
         acx1100_lpe01:

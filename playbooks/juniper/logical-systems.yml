@@ -3,7 +3,6 @@
 - name: juniper logical-systems
   hosts: juniper
   gather_facts: false
-  connection: local
 
   tasks:
     - name: Build list of set commands users and login class

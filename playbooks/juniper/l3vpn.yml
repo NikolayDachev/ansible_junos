@@ -6,7 +6,6 @@
 - name: juniper ibgp
   hosts: "{{ group }}"
   gather_facts: false
-  connection: local
 
   tasks:
     - block:

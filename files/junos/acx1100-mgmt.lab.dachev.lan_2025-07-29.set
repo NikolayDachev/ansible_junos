@@ -1,0 +1,18 @@
+
+set version 21.2R3.8
+set system host-name acx1100
+set system root-authentication encrypted-password "$6$Me.8rVDl$EF9PcbjYNNuRCuN5NejjRizhrBup688f5DY3A6yUgGujNDniHIYKjekVwxkmZ4LY34fT0FqqlhhKwh7R6XPeK0"
+set system login user admin uid 2014
+set system login user admin class super-user
+set system login user admin authentication encrypted-password "$6$e/Qp44Hi$ffQJABqMxxS.ezwRvD9qXXAbx7qNZAt7xcIJPHF7znbpDrdZZs24AuCQh703Ac/CZPgjWtOYyREqPV3eP9Qlx/"
+set system services ssh root-login allow
+set system services netconf ssh
+set system domain-name lab.ls
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system syslog user * any emergency
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any error
+set system syslog file messages authorization info
+set chassis fpc 0 service-package bundle-nat-ipsec
+set interfaces fxp0 unit 0 family inet dhcp client-identifier use-interface-description device

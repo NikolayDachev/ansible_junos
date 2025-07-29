@@ -1,0 +1,11 @@
+# ansible-playbook playbooks/juniper/save_rescue.yml  -e 'group=juniper'
+
+- name: juniper save rescue
+  hosts: "{{ group }}"
+  gather_facts: no
+
+  tasks:
+    - name: Save rescue config on device
+      juniper.device.command:
+        commands:
+          - request system configuration rescue save
