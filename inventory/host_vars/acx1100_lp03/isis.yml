@@ -1,6 +1,0 @@
-junos_isis:
-  iso_address: "49.0001.0010.0000.0013.00"
-  interfaces:
-    - name: ge-0/1/1.0
-    - name: ge-0/1/2.0
-    - name: lo0.13

@@ -1,4 +1,0 @@
-junos_mpls:
-  interfaces:
-    - name: ge-0/1/1.0
-    - name: ge-0/1/2.0

@@ -1,7 +1,7 @@
 junos_isis:
   iso_address: "49.0001.0010.0000.0011.00"
   interfaces:
-    - name: ge-0/0/5.0
-    - name: ge-0/0/2.0
-    - name: ge-0/1/0.0
+    - name: ge-0/0/1.0 point-to-point ldp-synchronization # commen ld-syn for rsvp
+    - name: ge-0/0/2.0 point-to-point ldp-synchronization # commen ld-syn for rsvp
+    - name: ge-0/0/4.0 point-to-point ldp-synchronization # commen ld-syn for rsvp
     - name: lo0.11 

@@ -4,10 +4,10 @@ junos_interfaces:
       - unit 11 description {{ inventory_hostname }}-loopback
       - unit 11 family inet address {{ junos_routerid }}/32
       - unit 11 family iso address {{ junos_isis.iso_address }}
-  - name: ge-0/0/5
+  - name: ge-0/0/1
     config:
-      - unit 0 description lpe01_ge-0/0/1
-      - unit 0 family inet address 10.0.15.2/30
+      - unit 0 description lpe02_ge-0/0/5
+      - unit 0 family inet address 10.0.15.1/30
       - unit 0 family iso
       - unit 0 family mpls
   - name: ge-0/0/2
@@ -16,10 +16,10 @@ junos_interfaces:
       - unit 0 family inet address 10.0.26.1/30
       - unit 0 family iso
       - unit 0 family mpls
-  - name: ge-0/1/0
+  - name: ge-0/0/4
     config:
-      - unit 0 description lp03-ge-0/1/1
-      - unit 0 family inet address 10.1.10.1/30
+      - unit 0 description lpe01-ge-0/0/0
+      - unit 0 family inet address 10.0.4.2/30
       - unit 0 family iso
       - unit 0 family mpls
 

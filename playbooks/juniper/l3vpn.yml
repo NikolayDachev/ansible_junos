@@ -2,6 +2,8 @@
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
 # ansible-playbook playbooks/juniper/l3vpn.yml  -e 'group=juniper'
 # ansible-playbook playbooks/juniper/l3vpn.yml  -e 'group=acx1100_logical_systems' --forks 1
+#
+# to delete config add: -e 'jcmd=delete'
 
 - name: juniper ibgp
   hosts: "{{ group }}"

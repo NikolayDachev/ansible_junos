@@ -28,19 +28,3 @@ all:
           logical_system: "lp01"
         acx1100_lp02:
           logical_system: "lp02"
-        acx1100_lp03:
-          logical_system: "lp03"
-
-    acx1100_ce:
-      vars:
-        ansible_connection: ansible.netcommon.network_cli
-        ansible_network_os: community.routeros.routeros
-        ansible_network_cli_ssh_type: libssh
-        ansible_user: admin
-        ansible_password: "{{ vault_junos_common_pass }}"
-        ansible_ssh_pass: "{{ vault_junos_common_pass }}"
-      hosts:
-        acx-ce101.lab.dachev.lan:
-        acx-ce102.lab.dachev.lan:
-        acx-ce201.lab.dachev.lan:
-        acx-ce202.lab.dachev.lan:

@@ -1,4 +1,5 @@
 junos_ldp:
   transport_address: "{{ junos_routerid }}"
+  deaggregate: False
   interfaces:
-    - name: ge-0/0/1.0
+    - name: ge-0/0/0.0

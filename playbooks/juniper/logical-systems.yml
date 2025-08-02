@@ -1,4 +1,6 @@
 # ansible-playbook playbooks/juniper/logical-systems.yml
+#
+# to delete config add: -e 'jcmd=delete'
 
 - name: juniper logical-systems
   hosts: juniper
