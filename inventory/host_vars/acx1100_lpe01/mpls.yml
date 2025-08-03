@@ -1,3 +1,5 @@
 junos_mpls:
   interfaces:
     - name: ge-0/0/0.0
+  config:
+    - icmp-tunneling

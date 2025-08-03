@@ -20,18 +20,13 @@
         ] }}"
       loop: "{{ junos_ldp.interfaces }}"
 
-    - name: Build list of Set commands ldp transport-address
+    - name: Build list of Set commands ldp conifg
       ansible.builtin.set_fact:
         set_commands: "{{ set_commands | default([]) + [
-          set_cmd ~ 'protocols ldp transport-address ' ~ junos_ldp.transport_address
+          set_cmd ~ 'protocols ldp ' ~ item 
         ] }}"
-
-    - name: Build list of Set commands ldp deaggregate
-      ansible.builtin.set_fact:
-        set_commands: "{{ set_commands | default([]) + [
-          set_cmd ~ 'protocols ldp deaggregate'
-        ] }}"
-      when: junos_ldp.deaggregate is defined and junos_ldp.deaggregate == True
+      loop: "{{ junos_ldp.config }}"
+      when: junos_ldp.config is defined
 
     - name: Load Set commands tasks
       import_tasks: tasks/load_set_commands.yml
