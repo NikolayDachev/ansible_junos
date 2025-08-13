@@ -1,6 +1,6 @@
 junos_mpls:
   interfaces:
-    - name: ge-0/0/0.0
+    - name: "{{ junos_lt_interface }}.1"
   config:
     - icmp-tunneling
     - label-switched-path lsp_to_lpe02 to 10.0.0.2

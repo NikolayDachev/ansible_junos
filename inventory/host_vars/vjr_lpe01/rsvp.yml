@@ -1,4 +1,4 @@
 junos_rsvp:
   interfaces:
-    - name: ge-0/0/0.0
+    - name: "{{ junos_lt_interface }}.1"
     - name: lo0.1

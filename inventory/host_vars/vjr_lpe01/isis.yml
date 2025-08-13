@@ -3,7 +3,7 @@ junos_isis:
     interface: lo0.1
     address: "49.0001.0010.0000.0001.00"
   interfaces:
-    - name: ge-0/0/0.0
+    - name: "{{ junos_lt_interface }}.1"
       config:
         - point-to-point ldp-synchronization # commen ld-syn for rsvp
     - name: lo0.1

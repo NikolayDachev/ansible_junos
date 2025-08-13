@@ -2,9 +2,9 @@
 
 junos_ldp:
   interfaces:
-    - name: ge-0/0/1.0
-    - name: ge-0/0/2.0
-    - name: ge-0/0/4.0
+    - name: "{{ junos_lt_interface }}.2"
+    - name: "{{ junos_lt_interface }}.3"
+    - name: "{{ junos_lt_interface }}.5"
   config:
       - transport-address {{ junos_routerid }}
       - deaggregate

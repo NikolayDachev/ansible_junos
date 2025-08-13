@@ -2,6 +2,8 @@
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
 # ansible-playbook playbooks/juniper/interfaces.yml  -e 'group=acx1100'
 # ansible-playbook playbooks/juniper/interfaces.yml  -e 'group=acx1100_logical_systems' --forks 1
+# ansible-playbook playbooks/juniper/interfaces.yml  -e 'group=vjr'
+# ansible-playbook playbooks/juniper/interfaces.yml  -e 'group=vjr_logical_systems' --forks 1
 #
 # to delete config add: -e 'jcmd=delete'
 
@@ -10,18 +12,19 @@
   gather_facts: false
 
   tasks:
-    - name: Load Set commands tasks
-      import_tasks: tasks/set_command.yml
+    - block:
+      - name: Load Set commands tasks
+        import_tasks: tasks/set_command.yml
 
-    - name: Build list of Set commands
-      ansible.builtin.set_fact:
-        set_commands: "{{ set_commands | default([]) + [ 
-          set_cmd ~ 'interfaces ' ~ item.0.name ~ ' ' ~ item.1
-        ] }}"
-      with_subelements:
-        - "{{ junos_interfaces }}"
-        - config
+      - name: Build list of Set commands
+        ansible.builtin.set_fact:
+          set_commands: "{{ set_commands | default([]) + [ 
+            set_cmd ~ 'interfaces ' ~ item.0.name ~ ' ' ~ item.1
+          ] }}"
+        with_subelements:
+          - "{{ junos_interfaces }}"
+          - config
 
-    - name: Load Set commands tasks
-      import_tasks: tasks/load_set_commands.yml
-
+      - name: Load Set commands tasks
+        import_tasks: tasks/load_set_commands.yml
+      when: junos_interfaces is defined

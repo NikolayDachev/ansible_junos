@@ -1,0 +1,3 @@
+junos_ospf_area: "0.0.0.0"
+junos_traffic_engineering: true
+junos_lt_interface: "lt-0/0/10" # to be same in 'vjr' group

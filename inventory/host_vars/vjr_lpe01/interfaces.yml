@@ -3,16 +3,17 @@ junos_interfaces:
     config:
       - unit 1 description {{ inventory_hostname }}-loopback
       - unit 1 family inet address {{ junos_routerid }}/32
-  - name: ge-0/0/0
+  - name: "{{ junos_lt_interface }}"
     config:
-      - unit 0 description lp01_ge-0/0/4
-      - unit 0 family inet address 10.0.4.1/30
-  - name: ge-0/1/3
+      - unit 1 encapsulation ethernet
+      - unit 1 peer-unit 2
+      - unit 1 description lp01_ltu_2
+      - unit 1 family inet address 10.0.12.1/30
+  - name: ge-0/0/1
     config:
-      - unit 101 description acx-ce101.lab.dachev.lan
-      - unit 101 vlan-id 101
-      - unit 101 family inet address 192.168.101.1/30
-      - unit 201 description acx-ce201.lab.dachev.lan
-      - unit 201 vlan-id 201
-      - unit 201 family inet address 192.168.201.1/30
-
+      - unit 0 description ce101
+      - unit 0 family inet address 192.168.101.1/30
+  - name: ge-0/0/3
+    config:
+      - unit 0 description ce201
+      - unit 0 family inet address 192.168.201.1/30
