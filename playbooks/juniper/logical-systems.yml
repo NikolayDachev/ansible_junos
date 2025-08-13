@@ -26,6 +26,7 @@
       with_subelements:
         - "{{ junos_logical_systems }}"
         - interfaces
+        - skip_missing: true
 
     - name: Load Set commands tasks
       import_tasks: tasks/load_set_commands.yml

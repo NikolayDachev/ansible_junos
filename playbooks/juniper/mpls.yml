@@ -16,7 +16,8 @@
     - name: Build list of set commands mpls interfaces
       ansible.builtin.set_fact:
         set_commands: "{{ set_commands | default([]) + [
-          set_cmd ~ ' protocols mpls interface ' ~ item.name
+          set_cmd ~ ' protocols mpls interface ' ~ item.name,
+          set_cmd ~ 'interfaces ' ~ item.name ~ ' family mpls'
         ] }}"
       loop: "{{ junos_mpls.interfaces }}"
 
@@ -28,5 +29,5 @@
       loop: "{{ junos_mpls.config }}"
       when: junos_mpls.config is defined
 
-    - name: Load Set commands tasks
-      import_tasks: tasks/load_set_commands.yml
+#    - name: Load Set commands tasks
+#      import_tasks: tasks/load_set_commands.yml
