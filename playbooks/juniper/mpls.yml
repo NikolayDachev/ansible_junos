@@ -29,5 +29,5 @@
       loop: "{{ junos_mpls.config }}"
       when: junos_mpls.config is defined
 
-#    - name: Load Set commands tasks
-#      import_tasks: tasks/load_set_commands.yml
+    - name: Load Set commands tasks
+      import_tasks: tasks/load_set_commands.yml
