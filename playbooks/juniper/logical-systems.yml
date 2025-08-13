@@ -10,6 +10,7 @@
     - name: Build list of set commands users and login class
       ansible.builtin.set_fact:
         set_commands: "{{ set_commands | default([]) + [
+          'set logical-systems ' ~ item.name,
           'set system login class ' ~ item.class ~ ' logical-system ' ~ item.name,
           'set system login class ' ~ item.class ~ ' permissions all',
           'set system login user ' ~ item.username ~ ' class ' ~ item.class,
