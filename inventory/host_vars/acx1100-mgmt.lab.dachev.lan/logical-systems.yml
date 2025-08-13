@@ -3,45 +3,23 @@ junos_logical_systems:
     username: lpe01
     password: "1q2w3e"
     class: lpe01
-    interfaces:
-      - lo0.1
-      - ge-0/0/1.0
 
   - name: lpe02
     username: lpe02
     password: "1q2w3e"
     class: lpe02
-    interfaces:
-      - lo0.2
-      - ge-0/0/7.0
 
   - name: lp01
     username: lp01
     password: "1q2w3e"
     class: lp01
-    interfaces:
-      - lo0.11
-      - ge-0/0/5.0
-      - ge-0/0/2.0
-      - ge-0/1/0.0
 
   - name: lp02
     username: lp02
     password: "1q2w3e"
     class: lp02
-    interfaces:
-      - lo0.12
-      - ge-0/0/6.0
-      - ge-0/0/3.0
-      - ge-0/1/3.0
 
-  - name: lp03
-    username: lp03
-    password: "1q2w3e"
-    class: lp03
-    interfaces:
-      - lo0.13
-      - ge-0/1/1.0
-      - ge-0/1/2.0
+
+
 
 

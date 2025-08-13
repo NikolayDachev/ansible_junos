@@ -1,0 +1,4 @@
+junos_rsvp:
+  interfaces:
+    - name: ge-0/0/0.0
+    - name: lo0.1

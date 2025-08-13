@@ -1,3 +1,7 @@
 junos_mpls:
   interfaces:
+    - name: ge-0/0/5.0
     - name: ge-0/0/7.0
+  config:
+    - icmp-tunneling
+    - label-switched-path lsp_to_lpe01 to 10.0.0.1

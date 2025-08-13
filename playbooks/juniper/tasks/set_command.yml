@@ -1,3 +1,7 @@
+# to delete config add: -e jcmd=delete
+
 - name: Set set command if logical-systems
+  vars:
+    jcmd: "set"
   ansible.builtin.set_fact:
-    set_cmd: "{{ 'set logical-systems ' ~ logical_system ~ ' ' if logical_system is defined and logical_system else 'set ' }}"
+    set_cmd: "{{ jcmd ~ ' logical-systems ' ~ logical_system ~ ' ' if logical_system is defined and logical_system else 'set ' }}"

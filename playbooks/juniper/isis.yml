@@ -2,6 +2,8 @@
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
 # ansible-playbook playbooks/juniper/isis.yml  -e 'group=juniper'
 # ansible-playbook playbooks/juniper/isis.yml  -e 'group=acx1100_logical_systems' --forks 1
+#
+# to delete config add: -e 'jcmd=delete'
 
 - name: juniper isis
   hosts: "{{ group }}"
@@ -14,9 +16,19 @@
     - name: Build list of Set commands isis
       ansible.builtin.set_fact:
         set_commands: "{{ set_commands | default([]) + [
-          set_cmd ~ 'protocols isis interface ' ~ item.name
+          set_cmd ~ 'protocols isis interface ' ~ item.0.name ~ ' ' ~ item.1, 
+          set_cmd ~ 'interfaces ' ~ item.0.name ~ ' family iso'
         ] }}"
-      loop: "{{ junos_isis.interfaces }}"
+      with_subelements:
+        - "{{ junos_isis.interfaces }}"
+        - config
+        - skip_missing: true
+
+    - name: Build list of Set commands isis interface
+      ansible.builtin.set_fact:
+        set_commands: "{{ set_commands | default([]) + [ 
+          set_cmd ~ 'interfaces ' ~ junos_isis.iso.interface ~ ' family iso address ' ~  junos_isis.iso.address
+        ] }}"
 
     - name: Load Set commands tasks
       import_tasks: tasks/load_set_commands.yml

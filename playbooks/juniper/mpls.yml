@@ -2,6 +2,8 @@
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
 # ansible-playbook playbooks/juniper/mpls.yml  -e 'group=juniper'
 # ansible-playbook playbooks/juniper/mpls.yml  -e 'group=acx1100_logical_systems' --forks 1
+#
+# to delete config add: -e 'jcmd=delete'
 
 - name: juniper mpls
   hosts: "{{ group }}"
@@ -14,9 +16,18 @@
     - name: Build list of set commands mpls interfaces
       ansible.builtin.set_fact:
         set_commands: "{{ set_commands | default([]) + [
-          set_cmd ~ ' protocols mpls interface ' ~ item.name
+          set_cmd ~ ' protocols mpls interface ' ~ item.name,
+          set_cmd ~ 'interfaces ' ~ item.name ~ ' family mpls'
         ] }}"
       loop: "{{ junos_mpls.interfaces }}"
+
+    - name: Build list of Set commands mpls conifg
+      ansible.builtin.set_fact:
+        set_commands: "{{ set_commands | default([]) + [
+          set_cmd ~ 'protocols mpls ' ~ item 
+        ] }}"
+      loop: "{{ junos_mpls.config }}"
+      when: junos_mpls.config is defined
 
     - name: Load Set commands tasks
       import_tasks: tasks/load_set_commands.yml

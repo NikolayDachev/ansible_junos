@@ -11,7 +11,5 @@ junos_interfaces:
   - name: ge-0/1/3
     config:
       - media-type copper
-  - name: ge-0/0/4
-    config:
-       - flexible-vlan-tagging
+      - flexible-vlan-tagging
 
