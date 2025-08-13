@@ -1,6 +1,6 @@
 # we want ot use --forks since logical systems commits make conflicts 
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
-# ansible-playbook playbooks/juniper/rsvp.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/rsvp.yml  -e 'group=acx1100'
 # ansible-playbook playbooks/juniper/rsvp.yml  -e 'group=acx1100_logical_systems' --forks 1
 #
 # to delete config add: -e 'jcmd=delete'

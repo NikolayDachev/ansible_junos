@@ -1,0 +1,7 @@
+junos_ldp:
+  interfaces:
+    - name: ge-0/0/3.0
+    - name: ge-0/0/6.0
+  config:
+      - transport-address {{ junos_routerid }}
+      - deaggregate

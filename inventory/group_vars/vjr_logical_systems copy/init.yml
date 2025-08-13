@@ -1,0 +1,2 @@
+junos_ospf_area: "0.0.0.0"
+junos_traffic_engineering: true

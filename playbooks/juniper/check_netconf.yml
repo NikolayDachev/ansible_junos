@@ -1,7 +1,9 @@
-# ansible-playbook playbooks/juniper/check_netconf.yml
+# ansible-playbook playbooks/juniper/check_netconf.yml -e 'group=acx1100'
+# ansible-playbook playbooks/juniper/check_netconf.yml -e 'group=vjr'
+
 
 - name: juniper netconfig check
-  hosts: juniper
+  hosts: "{{ group }}"
   gather_facts: no
 
   tasks:

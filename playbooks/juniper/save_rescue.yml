@@ -1,4 +1,4 @@
-# ansible-playbook playbooks/juniper/save_rescue.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/save_rescue.yml  -e 'group=acx1100'
 
 - name: juniper save rescue
   hosts: "{{ group }}"
