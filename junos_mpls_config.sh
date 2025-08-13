@@ -102,7 +102,7 @@ STEP=1
 
 # Start configuration deployment
 printf "\n%02d - Configure logical systems\n\n" $STEP
-ansible-playbook playbooks/juniper/logical-systems.yml
+ansible-playbook playbooks/juniper/logical-systems.yml -e "group=$HW_GROUP"
 ((STEP++))
 
 printf "\n%02d - Configure physical interfaces\n\n" $STEP
