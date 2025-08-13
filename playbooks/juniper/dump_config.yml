@@ -1,4 +1,5 @@
 # ansible-playbook playbooks/juniper/dump_config.yml -e 'group=acx1100'
+# ansible-playbook playbooks/juniper/dump_config.yml -e 'group=vjr'
 
 - name: Dump Junos configuration in all formats
   hosts: "{{ group }}"

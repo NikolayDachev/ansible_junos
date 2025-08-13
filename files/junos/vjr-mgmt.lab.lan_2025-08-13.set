@@ -1,0 +1,185 @@
+
+set version 24.2R1-S2.5
+set system host-name vjr
+set system root-authentication encrypted-password "$6$HGk454EL$RXzWURu./jZftTwhpWe05SUi20i2WR47DeiytQmxDb2v6xYkQ3IhzhehpHXeXqDg/DTZJ6dV1c5WEC71VpVbM1"
+set system login class lp01 logical-system lp01
+set system login class lp01 permissions all
+set system login class lp02 logical-system lp02
+set system login class lp02 permissions all
+set system login class lpe01 logical-system lpe01
+set system login class lpe01 permissions all
+set system login class lpe02 logical-system lpe02
+set system login class lpe02 permissions all
+set system login user admin uid 2000
+set system login user admin class super-user
+set system login user admin authentication encrypted-password "$6$WaF/U7zp$v9LIL33eb7Z7S3cs3WSYFcP6quLYlnKIIrPG9MEKghW7be8JImYlkqXOFsC/hQd3egdK6TUPuRZa0ZUcR859I0"
+set system login user lp01 uid 2001
+set system login user lp01 class lp01
+set system login user lp01 authentication encrypted-password "$6$rounds=656000$1hfg5VYH3LQGKSi4$sl5bcJOKy3ShexlYfVSipim3rsQh6R48aGDFXzAyi1wm7GF8YB1KH3mHGSmJbqYZ6jC.NxHzf1RxSr1CgsHLa1"
+set system login user lp02 uid 2002
+set system login user lp02 class lp02
+set system login user lp02 authentication encrypted-password "$6$rounds=656000$mP./DkD69.jDEUQ6$7569di7wwriWAuTcdG4NreCWCkcDGgYhQetYpr/CZj4MoPCtlOUJ1YxHy2wAOA0Wsm1cLZdRAC02L2hI3znzG1"
+set system login user lpe01 uid 2003
+set system login user lpe01 class lpe01
+set system login user lpe01 authentication encrypted-password "$6$rounds=656000$4.oZhe7DR36nE5pS$3x19VFFRpRv6Tl7j5QYzRjFcLCvcQ/LS1oh2FBhgnbwhdoBb1LfboTl/urCJ5.SP2N2EIQNhqf3fTKk6U/8/H."
+set system login user lpe02 uid 2004
+set system login user lpe02 class lpe02
+set system login user lpe02 authentication encrypted-password "$6$rounds=656000$SqnwKTaiZjHR.db9$RqUYMjuofphRh3hv/PkxgxWG6dWGyQ/0ZQRLbRTsdoF1APwb1B6pjKZcPxtCc/UhS8yg8zF9gKKXHZSWL8zCm0"
+set system services netconf ssh
+set system services ssh root-login allow
+set system domain-name lab.lan
+set system management-instance
+set logical-systems lp01 interfaces lt-0/0/10 unit 2 description lpe01-ltu_1
+set logical-systems lp01 interfaces lt-0/0/10 unit 2 encapsulation ethernet
+set logical-systems lp01 interfaces lt-0/0/10 unit 2 peer-unit 1
+set logical-systems lp01 interfaces lt-0/0/10 unit 2 family inet address 10.0.12.2/30
+set logical-systems lp01 interfaces lt-0/0/10 unit 2 family mpls
+set logical-systems lp01 interfaces lt-0/0/10 unit 3 description lpe02-ltu_4
+set logical-systems lp01 interfaces lt-0/0/10 unit 3 encapsulation ethernet
+set logical-systems lp01 interfaces lt-0/0/10 unit 3 peer-unit 4
+set logical-systems lp01 interfaces lt-0/0/10 unit 3 family inet address 10.0.34.1/30
+set logical-systems lp01 interfaces lt-0/0/10 unit 3 family mpls
+set logical-systems lp01 interfaces lt-0/0/10 unit 5 description lp02-ltu_6
+set logical-systems lp01 interfaces lt-0/0/10 unit 5 encapsulation ethernet
+set logical-systems lp01 interfaces lt-0/0/10 unit 5 peer-unit 6
+set logical-systems lp01 interfaces lt-0/0/10 unit 5 family inet address 10.0.56.1/30
+set logical-systems lp01 interfaces lt-0/0/10 unit 5 family mpls
+set logical-systems lp01 interfaces lo0 unit 11 description vjr_lp01-loopback
+set logical-systems lp01 interfaces lo0 unit 11 family inet address 10.0.0.11/32
+set logical-systems lp01 protocols mpls icmp-tunneling
+set logical-systems lp01 protocols mpls interface lt-0/0/10.2
+set logical-systems lp01 protocols mpls interface lt-0/0/10.3
+set logical-systems lp01 protocols mpls interface lt-0/0/10.5
+set logical-systems lp01 protocols ospf traffic-engineering
+set logical-systems lp01 protocols ospf area 0.0.0.0 interface lt-0/0/10.2
+set logical-systems lp01 protocols ospf area 0.0.0.0 interface lt-0/0/10.3
+set logical-systems lp01 protocols ospf area 0.0.0.0 interface lt-0/0/10.5
+set logical-systems lp01 protocols ospf area 0.0.0.0 interface lo0.11 passive
+set logical-systems lp01 protocols rsvp interface lt-0/0/10.2
+set logical-systems lp01 protocols rsvp interface lt-0/0/10.3
+set logical-systems lp01 protocols rsvp interface lt-0/0/10.5
+set logical-systems lp01 protocols rsvp interface lo0.11
+set logical-systems lp01 routing-options router-id 10.0.0.11
+set logical-systems lp02 interfaces lt-0/0/10 unit 6 description lp01_ltu5
+set logical-systems lp02 interfaces lt-0/0/10 unit 6 encapsulation ethernet
+set logical-systems lp02 interfaces lt-0/0/10 unit 6 peer-unit 5
+set logical-systems lp02 interfaces lt-0/0/10 unit 6 family inet address 10.0.56.2/30
+set logical-systems lp02 interfaces lt-0/0/10 unit 6 family mpls
+set logical-systems lp02 interfaces lt-0/0/10 unit 7 description lpe02-ltu_8
+set logical-systems lp02 interfaces lt-0/0/10 unit 7 encapsulation ethernet
+set logical-systems lp02 interfaces lt-0/0/10 unit 7 peer-unit 8
+set logical-systems lp02 interfaces lt-0/0/10 unit 7 family inet address 10.0.78.1/30
+set logical-systems lp02 interfaces lt-0/0/10 unit 7 family mpls
+set logical-systems lp02 interfaces lo0 unit 12 description vjr_lp02-loopback
+set logical-systems lp02 interfaces lo0 unit 12 family inet address 10.0.0.12/32
+set logical-systems lp02 protocols mpls icmp-tunneling
+set logical-systems lp02 protocols mpls interface lt-0/0/10.6
+set logical-systems lp02 protocols mpls interface lt-0/0/10.7
+set logical-systems lp02 protocols ospf traffic-engineering
+set logical-systems lp02 protocols ospf area 0.0.0.0 interface lt-0/0/10.6
+set logical-systems lp02 protocols ospf area 0.0.0.0 interface lt-0/0/10.7
+set logical-systems lp02 protocols ospf area 0.0.0.0 interface lo0.12 passive
+set logical-systems lp02 protocols rsvp interface lt-0/0/10.7
+set logical-systems lp02 protocols rsvp interface lt-0/0/10.6
+set logical-systems lp02 protocols rsvp interface lo0.12
+set logical-systems lp02 routing-options router-id 10.0.0.12
+set logical-systems lpe01 interfaces ge-0/0/1 unit 0 description ce101
+set logical-systems lpe01 interfaces ge-0/0/1 unit 0 family inet address 192.168.101.1/30
+set logical-systems lpe01 interfaces ge-0/0/3 unit 0 description ce201
+set logical-systems lpe01 interfaces ge-0/0/3 unit 0 family inet address 192.168.201.1/30
+set logical-systems lpe01 interfaces lt-0/0/10 unit 1 description lp01_ltu_2
+set logical-systems lpe01 interfaces lt-0/0/10 unit 1 encapsulation ethernet
+set logical-systems lpe01 interfaces lt-0/0/10 unit 1 peer-unit 2
+set logical-systems lpe01 interfaces lt-0/0/10 unit 1 family inet address 10.0.12.1/30
+set logical-systems lpe01 interfaces lt-0/0/10 unit 1 family mpls
+set logical-systems lpe01 interfaces lo0 unit 1 description vjr_lpe01-loopback
+set logical-systems lpe01 interfaces lo0 unit 1 family inet address 10.0.0.1/32
+set logical-systems lpe01 protocols bgp group internal type internal
+set logical-systems lpe01 protocols bgp group internal local-address 10.0.0.1
+set logical-systems lpe01 protocols bgp group internal family inet-vpn unicast
+set logical-systems lpe01 protocols bgp group internal neighbor 10.0.0.2
+set logical-systems lpe01 protocols mpls icmp-tunneling
+set logical-systems lpe01 protocols mpls label-switched-path lsp_to_lpe02 to 10.0.0.2
+set logical-systems lpe01 protocols mpls interface lt-0/0/10.1
+set logical-systems lpe01 protocols ospf traffic-engineering
+set logical-systems lpe01 protocols ospf area 0.0.0.0 interface lt-0/0/10.1
+set logical-systems lpe01 protocols ospf area 0.0.0.0 interface lo0.1 passive
+set logical-systems lpe01 protocols rsvp interface lt-0/0/10.1
+set logical-systems lpe01 protocols rsvp interface lo0.1
+set logical-systems lpe01 routing-instances ce-A_l3vpn instance-type vrf
+set logical-systems lpe01 routing-instances ce-A_l3vpn protocols bgp group ce type external
+set logical-systems lpe01 routing-instances ce-A_l3vpn protocols bgp group ce family inet unicast
+set logical-systems lpe01 routing-instances ce-A_l3vpn protocols bgp group ce peer-as 65101
+set logical-systems lpe01 routing-instances ce-A_l3vpn protocols bgp group ce neighbor 192.168.101.2
+set logical-systems lpe01 routing-instances ce-A_l3vpn interface ge-0/0/1.0
+set logical-systems lpe01 routing-instances ce-A_l3vpn route-distinguisher 192.168.101.2:1
+set logical-systems lpe01 routing-instances ce-A_l3vpn vrf-target target:65000:1
+set logical-systems lpe01 routing-instances ce-A_l3vpn vrf-table-label
+set logical-systems lpe01 routing-instances ce-B_l3vpn instance-type vrf
+set logical-systems lpe01 routing-instances ce-B_l3vpn protocols bgp group ce type external
+set logical-systems lpe01 routing-instances ce-B_l3vpn protocols bgp group ce family inet unicast
+set logical-systems lpe01 routing-instances ce-B_l3vpn protocols bgp group ce peer-as 65201
+set logical-systems lpe01 routing-instances ce-B_l3vpn protocols bgp group ce neighbor 192.168.201.2
+set logical-systems lpe01 routing-instances ce-B_l3vpn interface ge-0/0/3.0
+set logical-systems lpe01 routing-instances ce-B_l3vpn route-distinguisher 192.168.201.2:2
+set logical-systems lpe01 routing-instances ce-B_l3vpn vrf-target target:65000:2
+set logical-systems lpe01 routing-instances ce-B_l3vpn vrf-table-label
+set logical-systems lpe01 routing-options router-id 10.0.0.1
+set logical-systems lpe01 routing-options autonomous-system 65000
+set logical-systems lpe02 interfaces ge-0/0/2 unit 0 description ce102
+set logical-systems lpe02 interfaces ge-0/0/2 unit 0 family inet address 192.168.102.1/30
+set logical-systems lpe02 interfaces ge-0/0/4 unit 0 description ce202
+set logical-systems lpe02 interfaces ge-0/0/4 unit 0 family inet address 192.168.202.1/30
+set logical-systems lpe02 interfaces lt-0/0/10 unit 4 description lp01_ltu_3
+set logical-systems lpe02 interfaces lt-0/0/10 unit 4 encapsulation ethernet
+set logical-systems lpe02 interfaces lt-0/0/10 unit 4 peer-unit 3
+set logical-systems lpe02 interfaces lt-0/0/10 unit 4 family inet address 10.0.34.2/30
+set logical-systems lpe02 interfaces lt-0/0/10 unit 4 family mpls
+set logical-systems lpe02 interfaces lt-0/0/10 unit 8 description lp02_ltu_7
+set logical-systems lpe02 interfaces lt-0/0/10 unit 8 encapsulation ethernet
+set logical-systems lpe02 interfaces lt-0/0/10 unit 8 peer-unit 7
+set logical-systems lpe02 interfaces lt-0/0/10 unit 8 family inet address 10.0.78.2/30
+set logical-systems lpe02 interfaces lt-0/0/10 unit 8 family mpls
+set logical-systems lpe02 interfaces lo0 unit 2 description vjr_lpe02-loopback
+set logical-systems lpe02 interfaces lo0 unit 2 family inet address 10.0.0.2/32
+set logical-systems lpe02 protocols bgp group internal type internal
+set logical-systems lpe02 protocols bgp group internal local-address 10.0.0.2
+set logical-systems lpe02 protocols bgp group internal family inet-vpn unicast
+set logical-systems lpe02 protocols bgp group internal neighbor 10.0.0.1
+set logical-systems lpe02 protocols mpls icmp-tunneling
+set logical-systems lpe02 protocols mpls label-switched-path lsp_to_lpe01 to 10.0.0.1
+set logical-systems lpe02 protocols mpls interface lt-0/0/10.4
+set logical-systems lpe02 protocols mpls interface lt-0/0/10.8
+set logical-systems lpe02 protocols ospf traffic-engineering
+set logical-systems lpe02 protocols ospf area 0.0.0.0 interface lt-0/0/10.4
+set logical-systems lpe02 protocols ospf area 0.0.0.0 interface lt-0/0/10.9
+set logical-systems lpe02 protocols ospf area 0.0.0.0 interface lo0.2 passive
+set logical-systems lpe02 protocols rsvp interface lt-0/0/10.4
+set logical-systems lpe02 protocols rsvp interface lt-0/0/10.8
+set logical-systems lpe02 protocols rsvp interface lo0.2
+set logical-systems lpe02 routing-instances ce-A_l3vpn instance-type vrf
+set logical-systems lpe02 routing-instances ce-A_l3vpn protocols bgp group ce type external
+set logical-systems lpe02 routing-instances ce-A_l3vpn protocols bgp group ce family inet unicast
+set logical-systems lpe02 routing-instances ce-A_l3vpn protocols bgp group ce peer-as 65102
+set logical-systems lpe02 routing-instances ce-A_l3vpn protocols bgp group ce neighbor 192.168.102.2
+set logical-systems lpe02 routing-instances ce-A_l3vpn interface ge-0/0/2.0
+set logical-systems lpe02 routing-instances ce-A_l3vpn route-distinguisher 192.168.102.2:1
+set logical-systems lpe02 routing-instances ce-A_l3vpn vrf-target target:65000:1
+set logical-systems lpe02 routing-instances ce-A_l3vpn vrf-table-label
+set logical-systems lpe02 routing-instances ce-B_l3vpn instance-type vrf
+set logical-systems lpe02 routing-instances ce-B_l3vpn protocols bgp group ce type external
+set logical-systems lpe02 routing-instances ce-B_l3vpn protocols bgp group ce family inet unicast
+set logical-systems lpe02 routing-instances ce-B_l3vpn protocols bgp group ce peer-as 65202
+set logical-systems lpe02 routing-instances ce-B_l3vpn protocols bgp group ce neighbor 192.168.202.2
+set logical-systems lpe02 routing-instances ce-B_l3vpn interface ge-0/0/4.0
+set logical-systems lpe02 routing-instances ce-B_l3vpn route-distinguisher 192.168.202.2:2
+set logical-systems lpe02 routing-instances ce-B_l3vpn vrf-target target:65000:2
+set logical-systems lpe02 routing-instances ce-B_l3vpn vrf-table-label
+set logical-systems lpe02 routing-options router-id 10.0.0.2
+set logical-systems lpe02 routing-options autonomous-system 65000
+set chassis fpc 0 pic 0 tunnel-services bandwidth 1g
+set chassis fpc 0 pic 0 number-of-ports 12
+set interfaces fxp0 unit 0 family inet address 10.0.0.15/24
+set interfaces fxp0 unit 0 family inet6 address 2001:db8::2/64
+set routing-instances mgmt_junos routing-options rib mgmt_junos.inet6.0 static route ::/0 next-hop 2001:db8::1
+set routing-instances mgmt_junos routing-options static route 0.0.0.0/0 next-hop 10.0.0.2
