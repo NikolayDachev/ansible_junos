@@ -1,6 +1,6 @@
 junos_isis:
   iso:
-    interface: lo.12
+    interface: lo0.12
     address: "49.0001.0010.0000.0012.00"
   interfaces:
     - name: "{{ junos_lt_interface }}.6"
@@ -10,4 +10,6 @@ junos_isis:
       config:
         - point-to-point ldp-synchronization # commen ld-syn for rsvp
     - name: lo0.12
+      config:
+        - "passive"
 

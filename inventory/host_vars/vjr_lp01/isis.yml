@@ -13,3 +13,6 @@ junos_isis:
       config:
         - point-to-point ldp-synchronization # commen ld-syn for rsvp
     - name: lo0.11
+      config:
+        - "passive"
+
