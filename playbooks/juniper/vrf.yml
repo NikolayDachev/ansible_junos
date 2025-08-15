@@ -18,7 +18,7 @@
       - name: Build list of VRF set commands
         ansible.builtin.set_fact:
           set_commands: "{{ set_commands | default([]) + [
-            set_cmd ~'routing-instances ' ~ item.name ~ ' instance-type item.type',
+            set_cmd ~'routing-instances ' ~ item.name ~ ' instance-type '~ item.type,
             set_cmd ~'routing-instances ' ~ item.name ~ ' interface ' ~ item.interface,
             set_cmd ~'routing-instances ' ~ item.name ~ ' route-distinguisher ' ~ item.rd,
             set_cmd ~'routing-instances ' ~ item.name ~ ' vrf-target ' ~ item.vrf_target,

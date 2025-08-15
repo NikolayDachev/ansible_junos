@@ -5,7 +5,7 @@ junos_vrf:
     rd: "192.168.102.2:1"
     vrf_target: "target:65000:1"
     protocols:
-      - bgp group ce-A peer_as 65102
+      - bgp group ce-A peer-as 65102
       - bgp group ce-A neighbor 192.168.102.2
   - name: ce-B_l2vpn
     type: l2vpn
