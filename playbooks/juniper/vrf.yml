@@ -1,11 +1,12 @@
 # we want ot use --forks since logical systems commits make conflicts 
 # set {{ group }} as extra var in order to reuse this playbook for multiple groups
-# ansible-playbook playbooks/juniper/l3vpn.yml  -e 'group=acx1100'
-# ansible-playbook playbooks/juniper/l3vpn.yml  -e 'group=acx1100_logical_systems' --forks 1
+# ansible-playbook playbooks/juniper/vrf.yml  -e 'group=acx1100'
+# ansible-playbook playbooks/juniper/vrf.yml  -e 'group=acx1100_logical_systems' --forks 1
+# ansible-playbook playbooks/juniper/vrf.yml  -e 'group=vjr_logical_systems' --forks 1
 #
 # to delete config add: -e 'jcmd=delete'
 
-- name: juniper ibgp
+- name: juniper vrf
   hosts: "{{ group }}"
   gather_facts: false
 
@@ -17,25 +18,22 @@
       - name: Build list of VRF set commands
         ansible.builtin.set_fact:
           set_commands: "{{ set_commands | default([]) + [
-            set_cmd ~'routing-instances ' ~ item.name ~ ' instance-type vrf',
+            set_cmd ~'routing-instances ' ~ item.name ~ ' instance-type item.type',
             set_cmd ~'routing-instances ' ~ item.name ~ ' interface ' ~ item.interface,
             set_cmd ~'routing-instances ' ~ item.name ~ ' route-distinguisher ' ~ item.rd,
             set_cmd ~'routing-instances ' ~ item.name ~ ' vrf-target ' ~ item.vrf_target,
             set_cmd ~'routing-instances ' ~ item.name ~ ' vrf-table-label'
           ] }}"
-        loop: "{{ junos_l3vpn_vrf }}" 
+        loop: "{{ junos_vrf }}" 
 
-      - name: Build list of CE BGP set commands
+      - name: Build list of VRF protocols set commands
         ansible.builtin.set_fact:
           set_commands: "{{ set_commands | default([]) + [
-            set_cmd ~ 'routing-instances ' ~ item.0.name ~ ' protocols bgp group ce type external',
-            set_cmd ~ 'routing-instances ' ~ item.0.name ~ ' protocols bgp group ce family inet unicast',
-            set_cmd ~ 'routing-instances ' ~ item.0.name ~ ' protocols bgp group ce peer-as ' ~ item.1.peer_as | string,
-            set_cmd ~ 'routing-instances ' ~ item.0.name ~ ' protocols bgp group ce neighbor ' ~ item.1.neighbor
+            set_cmd ~ 'routing-instances ' ~ item.0.name ~ ' protocols ' ~ item.1
           ] }}"
         with_subelements:
-          - "{{ junos_l3vpn_vrf }}"
-          - ce_bgp
+          - "{{ junos_vrf }}"
+          - protocols
 
       - name: Load Set commands tasks
         import_tasks: tasks/load_set_commands.yml

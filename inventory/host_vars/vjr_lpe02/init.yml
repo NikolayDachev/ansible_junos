@@ -1,8 +1,1 @@
 junos_routerid: "10.0.0.2"
-junos_ibgp:
-  as: 65000
-  group: internal
-  local_address: "{{ junos_routerid }}"
-  family:
-    - inet-vpn unicast
-  neighbor: 10.0.0.1
