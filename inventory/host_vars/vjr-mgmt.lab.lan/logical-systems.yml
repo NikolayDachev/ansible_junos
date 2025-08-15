@@ -1,0 +1,25 @@
+junos_logical_systems:
+  - name: lpe01
+    username: lpe01
+    password: "1q2w3e"
+    class: lpe01
+
+  - name: lpe02
+    username: lpe02
+    password: "1q2w3e"
+    class: lpe02
+
+  - name: lp01
+    username: lp01
+    password: "1q2w3e"
+    class: lp01
+
+  - name: lp02
+    username: lp02
+    password: "1q2w3e"
+    class: lp02
+
+
+
+
+

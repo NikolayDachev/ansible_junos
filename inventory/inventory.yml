@@ -3,10 +3,11 @@ all:
     juniper:
       children:
         acx1100:
+        vjr:
 
     acx1100:
       hosts:
-        acx1100-mgmt.lab.dachev.lan:
+        acx1100-mgmt.lab.lan:
           ansible_user: admin
           ansible_password: "{{ vault_junos_common_pass }}"
           ansible_host: 192.168.3.109
@@ -27,4 +28,29 @@ all:
         acx1100_lp01:
           logical_system: "lp01"
         acx1100_lp02:
+          logical_system: "lp02"
+
+    vjr:
+      hosts:
+        vjr-mgmt.lab.lan:
+          ansible_user: admin
+          ansible_password: "{{ vault_junos_common_pass }}"
+          ansible_host: 172.16.100.10
+          ansible_connection: juniper.device.pyez
+
+    vjr_logical_systems:
+      vars:
+        ansible_host: 172.16.100.10
+        ansible_user: admin
+        ansible_password: "{{ vault_junos_common_pass }}"
+        ansible_connection: juniper.device.pyez
+        set_ls: ""
+      hosts:
+        vjr_lpe01:
+          logical_system: "lpe01"
+        vjr_lpe02:
+          logical_system: "lpe02"
+        vjr_lp01:
+          logical_system: "lp01"
+        vjr_lp02:
           logical_system: "lp02"

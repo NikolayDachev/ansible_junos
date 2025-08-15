@@ -1,0 +1,7 @@
+junos_mpls:
+  interfaces:
+    - name: "{{ junos_lt_interface }}.2"
+    - name: "{{ junos_lt_interface }}.3"
+    - name: "{{ junos_lt_interface }}.5"
+  config:
+    - icmp-tunneling

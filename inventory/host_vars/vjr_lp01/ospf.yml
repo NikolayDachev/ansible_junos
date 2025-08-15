@@ -1,0 +1,11 @@
+junos_ospf:
+  traffic_engineering: "{{ junos_traffic_engineering }}"
+  interfaces:
+    - name: "{{ junos_lt_interface }}.2"
+      area: "{{ junos_ospf_area }}"
+    - name: "{{ junos_lt_interface }}.3"
+      area: "{{ junos_ospf_area }}"
+    - name: "{{ junos_lt_interface }}.5"
+      area: "{{ junos_ospf_area }}"
+    - name: lo0.11 passive
+      area: "{{ junos_ospf_area }}"

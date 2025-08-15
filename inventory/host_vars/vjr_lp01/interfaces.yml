@@ -1,0 +1,23 @@
+junos_interfaces:
+  - name: lo0
+    config:
+      - unit 11 description {{ inventory_hostname }}-loopback
+      - unit 11 family inet address {{ junos_routerid }}/32
+  - name: "{{ junos_lt_interface }}"
+    config:
+      - unit 2 encapsulation ethernet
+      - unit 2 peer-unit 1
+      - unit 2 description lpe01-ltu_1
+      - unit 2 family inet address 10.0.12.2/30
+  - name: "{{ junos_lt_interface }}"
+    config:
+      - unit 3 encapsulation ethernet
+      - unit 3 peer-unit 4
+      - unit 3 description lpe02-ltu_4
+      - unit 3 family inet address 10.0.34.1/30
+  - name: "{{ junos_lt_interface }}"
+    config:
+      - unit 5 encapsulation ethernet
+      - unit 5 peer-unit 6
+      - unit 5 description lp02-ltu_6
+      - unit 5 family inet address 10.0.56.1/30

@@ -1,0 +1,5 @@
+junos_rsvp:
+  interfaces:
+    - name: "{{ junos_lt_interface }}.7"
+    - name: "{{ junos_lt_interface }}.6"
+    - name: lo0.12

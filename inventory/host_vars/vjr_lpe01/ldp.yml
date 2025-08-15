@@ -1,0 +1,6 @@
+junos_ldp:
+  interfaces:
+    - name: "{{ junos_lt_interface }}.1"
+  config:
+      - transport-address {{ junos_routerid }}
+      - deaggregate

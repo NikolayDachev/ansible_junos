@@ -1,0 +1,15 @@
+junos_l3vpn_vrf:
+  - name: ce-A_l3vpn
+    interface: ge-0/0/2.0
+    rd: "192.168.102.2:1"
+    vrf_target: "target:65000:1"
+    ce_bgp:
+      - peer_as: 65102
+        neighbor: 192.168.102.2
+  - name: ce-B_l3vpn
+    interface: ge-0/0/4.0
+    rd: "192.168.202.2:2"
+    vrf_target: "target:65000:2"
+    ce_bgp:
+      - peer_as: 65202
+        neighbor: 192.168.202.2

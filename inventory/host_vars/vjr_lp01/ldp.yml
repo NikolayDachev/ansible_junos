@@ -1,0 +1,10 @@
+# https://www.juniper.net/documentation/us/en/software/junos/mpls/topics/topic-map/ldp-configuration.html#id-configuring-fec-deaggregation
+
+junos_ldp:
+  interfaces:
+    - name: "{{ junos_lt_interface }}.2"
+    - name: "{{ junos_lt_interface }}.3"
+    - name: "{{ junos_lt_interface }}.5"
+  config:
+      - transport-address {{ junos_routerid }}
+      - deaggregate

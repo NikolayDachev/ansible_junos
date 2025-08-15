@@ -1,9 +1,10 @@
-# ansible-playbook playbooks/juniper/logical-systems.yml
+# ansible-playbook playbooks/juniper/logical-systems.yml -e 'group=acx1100'
+# ansible-playbook playbooks/juniper/logical-systems.yml -e 'group=jvr'
 #
 # to delete config add: -e 'jcmd=delete'
 
 - name: juniper logical-systems
-  hosts: juniper
+  hosts: "{{ group }}"
   gather_facts: false
 
   tasks:

@@ -1,4 +1,5 @@
-# ansible-playbook playbooks/juniper/rollback.yml  -e 'group=juniper'
+# ansible-playbook playbooks/juniper/rollback.yml  -e 'group=acx1100'
+# ansible-playbook playbooks/juniper/rollback.yml  -e 'group=vjr'
 #  -e 'rollback={ config verstion (rescue default)}'
 
 - name: juniper rollback rescue

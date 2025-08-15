@@ -1,0 +1,919 @@
+{
+    "configuration": {
+        "@": {
+            "junos:commit-localtime": "2025-08-13 16:41:05 UTC",
+            "junos:commit-seconds": "1755103265",
+            "junos:commit-user": "admin",
+            "xmlns": "http://xml.juniper.net/xnm/1.1/xnm"
+        },
+        "chassis": {
+            "fpc": [
+                {
+                    "name": 0,
+                    "pic": [
+                        {
+                            "name": 0,
+                            "number-of-ports": 12,
+                            "tunnel-services": {
+                                "bandwidth": "1g"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "interfaces": {
+            "interface": [
+                {
+                    "name": "fxp0",
+                    "unit": [
+                        {
+                            "family": {
+                                "inet": {
+                                    "address": [
+                                        {
+                                            "name": "10.0.0.15/24"
+                                        }
+                                    ]
+                                },
+                                "inet6": {
+                                    "address": [
+                                        {
+                                            "name": "2001:db8::2/64"
+                                        }
+                                    ]
+                                }
+                            },
+                            "name": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        "logical-systems": [
+            {
+                "interfaces": {
+                    "interface": [
+                        {
+                            "name": "lt-0/0/10",
+                            "unit": [
+                                {
+                                    "description": "lpe01-ltu_1",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.12.2/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 2,
+                                    "peer-unit": 1
+                                },
+                                {
+                                    "description": "lpe02-ltu_4",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.34.1/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 3,
+                                    "peer-unit": 4
+                                },
+                                {
+                                    "description": "lp02-ltu_6",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.56.1/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 5,
+                                    "peer-unit": 6
+                                }
+                            ]
+                        },
+                        {
+                            "name": "lo0",
+                            "unit": [
+                                {
+                                    "description": "vjr_lp01-loopback",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.0.11/32"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 11
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "name": "lp01",
+                "protocols": {
+                    "mpls": {
+                        "icmp-tunneling": [
+                            null
+                        ],
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.2"
+                            },
+                            {
+                                "name": "lt-0/0/10.3"
+                            },
+                            {
+                                "name": "lt-0/0/10.5"
+                            }
+                        ]
+                    },
+                    "ospf": {
+                        "area": [
+                            {
+                                "interface": [
+                                    {
+                                        "name": "lt-0/0/10.2"
+                                    },
+                                    {
+                                        "name": "lt-0/0/10.3"
+                                    },
+                                    {
+                                        "name": "lt-0/0/10.5"
+                                    },
+                                    {
+                                        "name": "lo0.11",
+                                        "passive": {}
+                                    }
+                                ],
+                                "name": "0.0.0.0"
+                            }
+                        ],
+                        "traffic-engineering": {}
+                    },
+                    "rsvp": {
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.2"
+                            },
+                            {
+                                "name": "lt-0/0/10.3"
+                            },
+                            {
+                                "name": "lt-0/0/10.5"
+                            },
+                            {
+                                "name": "lo0.11"
+                            }
+                        ]
+                    }
+                },
+                "routing-options": {
+                    "router-id": "10.0.0.11"
+                }
+            },
+            {
+                "interfaces": {
+                    "interface": [
+                        {
+                            "name": "lt-0/0/10",
+                            "unit": [
+                                {
+                                    "description": "lp01_ltu5",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.56.2/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 6,
+                                    "peer-unit": 5
+                                },
+                                {
+                                    "description": "lpe02-ltu_8",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.78.1/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 7,
+                                    "peer-unit": 8
+                                }
+                            ]
+                        },
+                        {
+                            "name": "lo0",
+                            "unit": [
+                                {
+                                    "description": "vjr_lp02-loopback",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.0.12/32"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 12
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "name": "lp02",
+                "protocols": {
+                    "mpls": {
+                        "icmp-tunneling": [
+                            null
+                        ],
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.6"
+                            },
+                            {
+                                "name": "lt-0/0/10.7"
+                            }
+                        ]
+                    },
+                    "ospf": {
+                        "area": [
+                            {
+                                "interface": [
+                                    {
+                                        "name": "lt-0/0/10.6"
+                                    },
+                                    {
+                                        "name": "lt-0/0/10.7"
+                                    },
+                                    {
+                                        "name": "lo0.12",
+                                        "passive": {}
+                                    }
+                                ],
+                                "name": "0.0.0.0"
+                            }
+                        ],
+                        "traffic-engineering": {}
+                    },
+                    "rsvp": {
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.7"
+                            },
+                            {
+                                "name": "lt-0/0/10.6"
+                            },
+                            {
+                                "name": "lo0.12"
+                            }
+                        ]
+                    }
+                },
+                "routing-options": {
+                    "router-id": "10.0.0.12"
+                }
+            },
+            {
+                "interfaces": {
+                    "interface": [
+                        {
+                            "name": "ge-0/0/1",
+                            "unit": [
+                                {
+                                    "description": "ce101",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "192.168.101.1/30"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ge-0/0/3",
+                            "unit": [
+                                {
+                                    "description": "ce201",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "192.168.201.1/30"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "lt-0/0/10",
+                            "unit": [
+                                {
+                                    "description": "lp01_ltu_2",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.12.1/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 1,
+                                    "peer-unit": 2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "lo0",
+                            "unit": [
+                                {
+                                    "description": "vjr_lpe01-loopback",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.0.1/32"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "name": "lpe01",
+                "protocols": {
+                    "bgp": {
+                        "group": [
+                            {
+                                "family": {
+                                    "inet-vpn": {
+                                        "unicast": {}
+                                    }
+                                },
+                                "local-address": "10.0.0.1",
+                                "name": "internal",
+                                "neighbor": [
+                                    {
+                                        "name": "10.0.0.2"
+                                    }
+                                ],
+                                "type": "internal"
+                            }
+                        ]
+                    },
+                    "mpls": {
+                        "icmp-tunneling": [
+                            null
+                        ],
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.1"
+                            }
+                        ],
+                        "label-switched-path": [
+                            {
+                                "name": "lsp_to_lpe02",
+                                "to": "10.0.0.2"
+                            }
+                        ]
+                    },
+                    "ospf": {
+                        "area": [
+                            {
+                                "interface": [
+                                    {
+                                        "name": "lt-0/0/10.1"
+                                    },
+                                    {
+                                        "name": "lo0.1",
+                                        "passive": {}
+                                    }
+                                ],
+                                "name": "0.0.0.0"
+                            }
+                        ],
+                        "traffic-engineering": {}
+                    },
+                    "rsvp": {
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.1"
+                            },
+                            {
+                                "name": "lo0.1"
+                            }
+                        ]
+                    }
+                },
+                "routing-instances": {
+                    "instance": [
+                        {
+                            "instance-type": "vrf",
+                            "interface": [
+                                {
+                                    "name": "ge-0/0/1.0"
+                                }
+                            ],
+                            "name": "ce-A_l3vpn",
+                            "protocols": {
+                                "bgp": {
+                                    "group": [
+                                        {
+                                            "family": {
+                                                "inet": {
+                                                    "unicast": {}
+                                                }
+                                            },
+                                            "name": "ce",
+                                            "neighbor": [
+                                                {
+                                                    "name": "192.168.101.2"
+                                                }
+                                            ],
+                                            "peer-as": "65101",
+                                            "type": "external"
+                                        }
+                                    ]
+                                }
+                            },
+                            "route-distinguisher": {
+                                "rd-type": "192.168.101.2:1"
+                            },
+                            "vrf-table-label": {},
+                            "vrf-target": {
+                                "community": "target:65000:1"
+                            }
+                        },
+                        {
+                            "instance-type": "vrf",
+                            "interface": [
+                                {
+                                    "name": "ge-0/0/3.0"
+                                }
+                            ],
+                            "name": "ce-B_l3vpn",
+                            "protocols": {
+                                "bgp": {
+                                    "group": [
+                                        {
+                                            "family": {
+                                                "inet": {
+                                                    "unicast": {}
+                                                }
+                                            },
+                                            "name": "ce",
+                                            "neighbor": [
+                                                {
+                                                    "name": "192.168.201.2"
+                                                }
+                                            ],
+                                            "peer-as": "65201",
+                                            "type": "external"
+                                        }
+                                    ]
+                                }
+                            },
+                            "route-distinguisher": {
+                                "rd-type": "192.168.201.2:2"
+                            },
+                            "vrf-table-label": {},
+                            "vrf-target": {
+                                "community": "target:65000:2"
+                            }
+                        }
+                    ]
+                },
+                "routing-options": {
+                    "autonomous-system": {
+                        "as-number": "65000"
+                    },
+                    "router-id": "10.0.0.1"
+                }
+            },
+            {
+                "interfaces": {
+                    "interface": [
+                        {
+                            "name": "ge-0/0/2",
+                            "unit": [
+                                {
+                                    "description": "ce102",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "192.168.102.1/30"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ge-0/0/4",
+                            "unit": [
+                                {
+                                    "description": "ce202",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "192.168.202.1/30"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "lt-0/0/10",
+                            "unit": [
+                                {
+                                    "description": "lp01_ltu_3",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.34.2/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 4,
+                                    "peer-unit": 3
+                                },
+                                {
+                                    "description": "lp02_ltu_7",
+                                    "encapsulation": "ethernet",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.78.2/30"
+                                                }
+                                            ]
+                                        },
+                                        "mpls": {}
+                                    },
+                                    "name": 8,
+                                    "peer-unit": 7
+                                }
+                            ]
+                        },
+                        {
+                            "name": "lo0",
+                            "unit": [
+                                {
+                                    "description": "vjr_lpe02-loopback",
+                                    "family": {
+                                        "inet": {
+                                            "address": [
+                                                {
+                                                    "name": "10.0.0.2/32"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "name": 2
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "name": "lpe02",
+                "protocols": {
+                    "bgp": {
+                        "group": [
+                            {
+                                "family": {
+                                    "inet-vpn": {
+                                        "unicast": {}
+                                    }
+                                },
+                                "local-address": "10.0.0.2",
+                                "name": "internal",
+                                "neighbor": [
+                                    {
+                                        "name": "10.0.0.1"
+                                    }
+                                ],
+                                "type": "internal"
+                            }
+                        ]
+                    },
+                    "mpls": {
+                        "icmp-tunneling": [
+                            null
+                        ],
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.4"
+                            },
+                            {
+                                "name": "lt-0/0/10.8"
+                            }
+                        ],
+                        "label-switched-path": [
+                            {
+                                "name": "lsp_to_lpe01",
+                                "to": "10.0.0.1"
+                            }
+                        ]
+                    },
+                    "ospf": {
+                        "area": [
+                            {
+                                "interface": [
+                                    {
+                                        "name": "lt-0/0/10.4"
+                                    },
+                                    {
+                                        "name": "lt-0/0/10.9"
+                                    },
+                                    {
+                                        "name": "lo0.2",
+                                        "passive": {}
+                                    }
+                                ],
+                                "name": "0.0.0.0"
+                            }
+                        ],
+                        "traffic-engineering": {}
+                    },
+                    "rsvp": {
+                        "interface": [
+                            {
+                                "name": "lt-0/0/10.4"
+                            },
+                            {
+                                "name": "lt-0/0/10.8"
+                            },
+                            {
+                                "name": "lo0.2"
+                            }
+                        ]
+                    }
+                },
+                "routing-instances": {
+                    "instance": [
+                        {
+                            "instance-type": "vrf",
+                            "interface": [
+                                {
+                                    "name": "ge-0/0/2.0"
+                                }
+                            ],
+                            "name": "ce-A_l3vpn",
+                            "protocols": {
+                                "bgp": {
+                                    "group": [
+                                        {
+                                            "family": {
+                                                "inet": {
+                                                    "unicast": {}
+                                                }
+                                            },
+                                            "name": "ce",
+                                            "neighbor": [
+                                                {
+                                                    "name": "192.168.102.2"
+                                                }
+                                            ],
+                                            "peer-as": "65102",
+                                            "type": "external"
+                                        }
+                                    ]
+                                }
+                            },
+                            "route-distinguisher": {
+                                "rd-type": "192.168.102.2:1"
+                            },
+                            "vrf-table-label": {},
+                            "vrf-target": {
+                                "community": "target:65000:1"
+                            }
+                        },
+                        {
+                            "instance-type": "vrf",
+                            "interface": [
+                                {
+                                    "name": "ge-0/0/4.0"
+                                }
+                            ],
+                            "name": "ce-B_l3vpn",
+                            "protocols": {
+                                "bgp": {
+                                    "group": [
+                                        {
+                                            "family": {
+                                                "inet": {
+                                                    "unicast": {}
+                                                }
+                                            },
+                                            "name": "ce",
+                                            "neighbor": [
+                                                {
+                                                    "name": "192.168.202.2"
+                                                }
+                                            ],
+                                            "peer-as": "65202",
+                                            "type": "external"
+                                        }
+                                    ]
+                                }
+                            },
+                            "route-distinguisher": {
+                                "rd-type": "192.168.202.2:2"
+                            },
+                            "vrf-table-label": {},
+                            "vrf-target": {
+                                "community": "target:65000:2"
+                            }
+                        }
+                    ]
+                },
+                "routing-options": {
+                    "autonomous-system": {
+                        "as-number": "65000"
+                    },
+                    "router-id": "10.0.0.2"
+                }
+            }
+        ],
+        "routing-instances": {
+            "instance": [
+                {
+                    "name": "mgmt_junos",
+                    "routing-options": {
+                        "rib": [
+                            {
+                                "name": "mgmt_junos.inet6.0",
+                                "static": {
+                                    "route": [
+                                        {
+                                            "name": "::/0",
+                                            "next-hop": [
+                                                "2001:db8::1"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "static": {
+                            "route": [
+                                {
+                                    "name": "0.0.0.0/0",
+                                    "next-hop": [
+                                        "10.0.0.2"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "system": {
+            "domain-name": "lab.lan",
+            "host-name": "vjr",
+            "login": {
+                "class": [
+                    {
+                        "logical-system": "lp01",
+                        "name": "lp01",
+                        "permissions": [
+                            "all"
+                        ]
+                    },
+                    {
+                        "logical-system": "lp02",
+                        "name": "lp02",
+                        "permissions": [
+                            "all"
+                        ]
+                    },
+                    {
+                        "logical-system": "lpe01",
+                        "name": "lpe01",
+                        "permissions": [
+                            "all"
+                        ]
+                    },
+                    {
+                        "logical-system": "lpe02",
+                        "name": "lpe02",
+                        "permissions": [
+                            "all"
+                        ]
+                    }
+                ],
+                "user": [
+                    {
+                        "authentication": {
+                            "encrypted-password": "$6$WaF/U7zp$v9LIL33eb7Z7S3cs3WSYFcP6quLYlnKIIrPG9MEKghW7be8JImYlkqXOFsC/hQd3egdK6TUPuRZa0ZUcR859I0"
+                        },
+                        "class": "super-user",
+                        "name": "admin",
+                        "uid": 2000
+                    },
+                    {
+                        "authentication": {
+                            "encrypted-password": "$6$rounds=656000$1hfg5VYH3LQGKSi4$sl5bcJOKy3ShexlYfVSipim3rsQh6R48aGDFXzAyi1wm7GF8YB1KH3mHGSmJbqYZ6jC.NxHzf1RxSr1CgsHLa1"
+                        },
+                        "class": "lp01",
+                        "name": "lp01",
+                        "uid": 2001
+                    },
+                    {
+                        "authentication": {
+                            "encrypted-password": "$6$rounds=656000$mP./DkD69.jDEUQ6$7569di7wwriWAuTcdG4NreCWCkcDGgYhQetYpr/CZj4MoPCtlOUJ1YxHy2wAOA0Wsm1cLZdRAC02L2hI3znzG1"
+                        },
+                        "class": "lp02",
+                        "name": "lp02",
+                        "uid": 2002
+                    },
+                    {
+                        "authentication": {
+                            "encrypted-password": "$6$rounds=656000$4.oZhe7DR36nE5pS$3x19VFFRpRv6Tl7j5QYzRjFcLCvcQ/LS1oh2FBhgnbwhdoBb1LfboTl/urCJ5.SP2N2EIQNhqf3fTKk6U/8/H."
+                        },
+                        "class": "lpe01",
+                        "name": "lpe01",
+                        "uid": 2003
+                    },
+                    {
+                        "authentication": {
+                            "encrypted-password": "$6$rounds=656000$SqnwKTaiZjHR.db9$RqUYMjuofphRh3hv/PkxgxWG6dWGyQ/0ZQRLbRTsdoF1APwb1B6pjKZcPxtCc/UhS8yg8zF9gKKXHZSWL8zCm0"
+                        },
+                        "class": "lpe02",
+                        "name": "lpe02",
+                        "uid": 2004
+                    }
+                ]
+            },
+            "management-instance": [
+                null
+            ],
+            "root-authentication": {
+                "encrypted-password": "$6$HGk454EL$RXzWURu./jZftTwhpWe05SUi20i2WR47DeiytQmxDb2v6xYkQ3IhzhehpHXeXqDg/DTZJ6dV1c5WEC71VpVbM1"
+            },
+            "services": {
+                "netconf": {
+                    "ssh": {}
+                },
+                "ssh": {
+                    "root-login": "allow"
+                }
+            }
+        },
+        "version": "24.2R1-S2.5"
+    }
+}
