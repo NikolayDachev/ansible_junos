@@ -10,7 +10,7 @@ junos_vrf:
   - name: ce-B_l2vpn
     type: l2vpn
     interface: ge-0/0/3.0
-    rd: "192.168.201.2:2"
+    rd: "10.0.0.1:2"
     vrf_target: "target:65000:2"
     protocols:
       - l2vpn interface ge-0/0/3.0

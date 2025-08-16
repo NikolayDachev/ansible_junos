@@ -18,11 +18,10 @@
       - name: Build list of VRF set commands
         ansible.builtin.set_fact:
           set_commands: "{{ set_commands | default([]) + [
-            set_cmd ~'routing-instances ' ~ item.name ~ ' instance-type '~ item.type,
-            set_cmd ~'routing-instances ' ~ item.name ~ ' interface ' ~ item.interface,
-            set_cmd ~'routing-instances ' ~ item.name ~ ' route-distinguisher ' ~ item.rd,
-            set_cmd ~'routing-instances ' ~ item.name ~ ' vrf-target ' ~ item.vrf_target,
-            set_cmd ~'routing-instances ' ~ item.name ~ ' vrf-table-label'
+            set_cmd ~ 'routing-instances ' ~ item.name ~ ' instance-type '~ item.type,
+            set_cmd ~ 'routing-instances ' ~ item.name ~ ' interface ' ~ item.interface,
+            set_cmd ~ 'routing-instances ' ~ item.name ~ ' route-distinguisher ' ~ item.rd,
+            set_cmd ~ 'routing-instances ' ~ item.name ~ ' vrf-target ' ~ item.vrf_target
           ] }}"
         loop: "{{ junos_vrf }}" 
 
@@ -38,4 +37,4 @@
       - name: Load Set commands tasks
         import_tasks: tasks/load_set_commands.yml
 
-      when: junos_ibgp is defined
+      when: junos_vrf is defined
