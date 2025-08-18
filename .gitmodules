@@ -1,0 +1,3 @@
+[submodule "submodules/containerlab"]
+	path = submodules/containerlab
+	url = https://github.com/NikolayDachev/containerlab
