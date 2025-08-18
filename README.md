@@ -27,9 +27,24 @@ sed -i \
 ## Submodules
 
 For `jvr` please use containerlab under `submodules/containerlab/labs/vjrouter-rare-ce/`  
+
+## Deploymnet example 
+
+### Init ansible venv
+```
+./setup_ansible.sh init_venv
+```
+### Udate submodule and deploy container lab
 ```
 git submodule update --init --recursive
 cd submodules/containerlab/labs/vjrouter-rare-ce/
 sudo containerlab deploy
-...
+sudo containerlab inspect
+cd ../../../../
+```
+### Run script with ansible playbooks 
+```
+ source .local/venv/bin/activate
+ echo '1q2w3e' > .local/.vaultpwd
+./junos_mpls_config.sh
 ```
