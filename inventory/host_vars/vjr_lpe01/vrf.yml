@@ -1,0 +1,19 @@
+junos_vrf:
+  - name: ce-A_l3vpn
+    type: vrf
+    interface: ge-0/0/1.0
+    rd: "192.168.101.2:1"
+    vrf_target: "target:65000:1"
+    protocols:
+      - bgp group ce-A peer-as 65101
+      - bgp group ce-A neighbor 192.168.101.2
+  - name: ce-B_l2vpn
+    type: l2vpn
+    interface: ge-0/0/3.0
+    rd: "10.0.0.1:2"
+    vrf_target: "target:65000:2"
+    protocols:
+      - l2vpn interface ge-0/0/3.0
+      - l2vpn encapsulation-type ethernet
+      - l2vpn site ce-B interface ge-0/0/3.0 remote-site-id 2
+      - l2vpn site ce-B site-identifier 1

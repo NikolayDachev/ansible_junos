@@ -154,7 +154,7 @@ printf "\n%02d - Configure LS's iBGP\n\n" $STEP
 ansible-playbook playbooks/juniper/ibgp.yml -e "group=$LS_GROUP" --forks 1
 ((STEP++))
 
-printf "\n%02d - Configure LS's L3VPN\n\n" $STEP
-ansible-playbook playbooks/juniper/l3vpn.yml -e "group=$LS_GROUP" --forks 1
+printf "\n%02d - Configure LS's VRF\n\n" $STEP
+ansible-playbook playbooks/juniper/vrf.yml -e "group=$LS_GROUP" --forks 1
 
 printf "\nDONE!\n\n"

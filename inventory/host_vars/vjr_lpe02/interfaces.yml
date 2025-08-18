@@ -22,4 +22,4 @@ junos_interfaces:
   - name: ge-0/0/4
     config:
       - unit 0 description ce202
-      - unit 0 family inet address 192.168.202.1/30
+      - unit 0 family ccc

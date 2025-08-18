@@ -11,5 +11,6 @@ junos_interfaces:
   - name: ge-0/1/3
     config:
       - media-type copper
+      - encapsulation ethernet-ccc
       - flexible-vlan-tagging
 

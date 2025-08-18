@@ -1,0 +1,8 @@
+junos_interfaces:
+  - name: ge-0/0/3
+    config:
+      - encapsulation ethernet-ccc
+  - name: ge-0/0/4
+    config:
+      - encapsulation ethernet-ccc
+

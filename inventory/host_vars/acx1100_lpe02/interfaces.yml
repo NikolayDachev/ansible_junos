@@ -16,6 +16,6 @@ junos_interfaces:
       - unit 102 description acx-ce102.lab.dachev.lan
       - unit 102 vlan-id 102
       - unit 102 family inet address 192.168.102.1/30
-      - unit 202 description acx-ce202.lab.dachev.lan
-      - unit 202 vlan-id 202
-      - unit 202 family inet address 192.168.202.1/30
+      - unit 201 vlan-id 201
+      - unit 201 description ce201
+      - unit 201 family ccc
