@@ -24,3 +24,12 @@ sed -i \
   collections/ansible_collections/juniper/device/plugins/module_utils/configuration.py
 ```
 
+## Submodules
+
+For `jvr` please use containerlab under `submodules/containerlab/labs/vjrouter-rare-ce/`  
+```
+git submodule update --init --recursive
+cd submodules/containerlab/labs/vjrouter-rare-ce/
+sudo containerlab deploy
+...
+```
