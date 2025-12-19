@@ -102,10 +102,10 @@ new_venv() {
     echo "$msg_prefix update pip"
     "$pip" install --upgrade pip
     "$pip" install --upgrade wheel
-    
+
     if [ -f "$venv_file" ]; then
         echo "$msg_prefix $pip install -r $venv_file"
-        "$pip" install -r "$venv_file"
+        "$pip" install --no-cache-dir  --require-virtualenv --disable-pip-version-check -r "$venv_file"
     else
         echo "$msg_prefix $venv_file not found!"
         echo "$msg_prefix install ansible"
@@ -139,9 +139,12 @@ update_venv_req() {
     
     echo "$msg_prefix update $venv_file"
     pip freeze > "$venv_file"
+
+    echo "$msg_prefix update no_versions_$venv_file"
+    pip freeze | sed 's/==.*//' | awk '{ print $1}' > "no_versions_$venv_file"
     
     echo ""
-    echo "$msg_prefix $venv_file is updated"
+    echo "$msg_prefix no_versions_$venv_file is updated"
     echo "$msg_prefix please push $venv_file in git"
 }
 
