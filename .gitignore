@@ -1,2 +1,3 @@
 .local/*
 !.local/requirements.venv*
+!.local/requirements.pkg*

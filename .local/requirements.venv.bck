@@ -3,6 +3,7 @@ ansible-core
 bcrypt
 cffi
 cryptography
+invoke
 Jinja2
 junos-eznc
 jxmlease
@@ -12,6 +13,7 @@ ncclient
 packaging
 paramiko
 passlib
+pip
 pycparser
 pyez
 PyNaCl

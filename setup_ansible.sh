@@ -1,45 +1,57 @@
+#!/bin/bash
 # MIT License
 # Copyright (c) 2025 Nikolay Dachev
 
-#!/bin/bash
-
 # DEFAULTS
-ver="1.0.0"
-py="python3"
-pip="pip3"
+ver="1.1.0"
+py="python3.13"
+pip="pip3.13"
 vaultpwd='1q2w3e'
 localansible=".local"
-venv="$localansible/venv"
-venv_file="$localansible/requirements.venv"
+
+# Paths / files
+venv_dir="$localansible/venv"
+venv_file="$localansible/requirements.venv"          # names only
+venv_freeze_file="${venv_file}.freeze"              # pinned versions (pip freeze)
+os_pkg_file="$localansible/requirements.pkg"
+
 msg_prefix="SETUP ANSIBLE:"
 
-# Check for python3 venv module and pip
-"$py" -m venv -h &> /dev/null
-if [ $? -ne 0 ]; then
-    echo "$msg_prefix Error: The Python 3 venv module is missing. Please install it manually."
-    exit 1
-fi
-"$pip" -h &> /dev/null
-if [ $? -ne 0 ]; then
-    echo "$msg_prefix Error: The Python 3 pip package is missing. Please install it manually."
-    exit 1
-fi
+install_os_pkgs_from_file() {
+    echo "$msg_prefix --- INSTALL OS PACKAGES FROM FILE ---"
 
-init_env() {
+    [[ -f "$os_pkg_file" ]] || {
+        echo "$msg_prefix Error: Package file not found: $os_pkg_file" >&2
+        return 1
+    }
+
+    while IFS= read -r pkg; do
+        [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
+
+        if ! rpm -q "$pkg" &>/dev/null; then
+            echo "$msg_prefix: Installing OS $pkg"
+            sudo zypper -n install "$pkg"
+        else
+            echo "$msg_prefix Info: $pkg OS pkg is already installed"
+        fi
+    done < "$os_pkg_file"
+}
+
+init_ansible() {
     echo "$msg_prefix --- INIT ---"
     for i in inventory/group_vars/all \
              inventory/host_vars \
              playbooks \
              collections/ansible_collections/ \
              files \
-             .local/.ansible/tmp
+             "$localansible/.ansible/tmp"
     do
         if [ ! -d "$PWD/$i" ]; then
             echo "$msg_prefix create folder: $PWD/$i"
             mkdir -p "$PWD/$i"
         fi
     done
-    
+
     if [ ! -f "$PWD/inventory/inventory.yml" ]; then
         echo "$msg_prefix create $PWD/inventory/inventory.yml"
         touch "$PWD/inventory/inventory.yml"
@@ -58,75 +70,109 @@ become =                True
 host_key_checking =     False
 deprecation_warnings =  True
 ansible_network_os =    linux
-stdout_callback =       yaml
 display_skipped_hosts = true
+result_format =         yaml
 
 [ssh_connection]
 ssh_args = -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
 EOF
     fi
-    
+
     if [ ! -f "$PWD/.gitignore" ]; then
        echo "$msg_prefix create $PWD/.gitignore"
        cat > "$PWD/.gitignore" << EOF
 $localansible/*
 !$venv_file*
+!$venv_freeze_file*
 EOF
     fi
-    
+
     if [ ! -f "$localansible/.vaultpwd" ]; then
         echo "$msg_prefix create $PWD/$localansible/.vaultpwd"
+        mkdir -p "$PWD/$localansible"
         echo "$vaultpwd" > "$PWD/$localansible/.vaultpwd"
         chmod 400 "$PWD/$localansible/.vaultpwd"
         echo ""
         echo "$msg_prefix: Please check $localansible/.vaultpwd for the default vault password."
     fi
-    
+
     echo ""
     echo "$msg_prefix: Ansible environment initialization complete!"
 }
 
 new_venv() {
     echo "$msg_prefix --- NEW VENV ---"
-    if [ -d "$venv" ]; then
-        echo "$msg_prefix ERROR: '$venv' exists. Please delete it first!"
+
+    local use_freeze=false
+    local system_site=false
+
+    # parse flags (can be anywhere)
+    for arg in "$@"; do
+        case "$arg" in
+            -f) use_freeze=true ;;
+            -s) system_site=true ;;
+        esac
+    done
+
+    local req_file="$venv_file"
+    if $use_freeze && [ -f "$venv_freeze_file" ]; then
+        req_file="$venv_freeze_file"
+        echo "$msg_prefix: Using freezed requirements file: $req_file"
+    fi
+
+    local venv_args=()
+    if $system_site; then
+        venv_args+=(--system-site-packages)
+        echo "$msg_prefix: Allow system site packages in venv"
+    fi
+
+    if [ -d "$venv_dir" ]; then
+        echo "$msg_prefix ERROR: '$venv_dir' exists. Please delete it first!"
         exit 1
     fi
-    
-    echo "$msg_prefix create $venv"
-    "$py" -m venv "$venv" #--system-site-packages
-    
-    echo "$msg_prefix source $venv/bin/activate"
-    source "$venv/bin/activate"
-    
+
+    echo "$msg_prefix create $venv_dir"
+    "$py" -m venv "${venv_args[@]}" "$venv_dir"
+
+    echo "$msg_prefix source $venv_dir/bin/activate"
+    # shellcheck disable=SC1090
+    source "$venv_dir/bin/activate"
+
     echo "$msg_prefix update pip"
     "$pip" install --upgrade pip
     "$pip" install --upgrade wheel
 
-    if [ -f "$venv_file" ]; then
-        echo "$msg_prefix $pip install -r $venv_file"
-        "$pip" install --no-cache-dir  --require-virtualenv --disable-pip-version-check -r "$venv_file"
+    if [ -f "$req_file" ]; then
+        echo "$msg_prefix $pip install -r $req_file"
+        "$pip" install -r "$req_file"
     else
-        echo "$msg_prefix $venv_file not found!"
+        echo "$msg_prefix $req_file not found!"
         echo "$msg_prefix install ansible"
         "$pip" install ansible
         ansible --version
-        echo "$msg_prefix create $venv_file"
-        pip freeze > "$venv_file"
+        echo "$msg_prefix create $venv_file and $venv_freeze_file"
+        "$pip" list --format=freeze | cut -d= -f1 > "$venv_file"
+        "$pip" freeze > "$venv_freeze_file"
     fi
-    
+
     echo ""
-    echo "$msg_prefix: Virtual environment '$venv' has been created."
-    echo "$msg_prefix: To activate the virtual environment, run: source $venv/bin/activate"
+    echo "$msg_prefix: Virtual environment '$venv_dir' has been created."
+    echo "$msg_prefix: To activate the virtual environment, run: source $venv_dir/bin/activate"
     echo "$msg_prefix: To deactivate the virtual environment, run: deactivate"
 }
 
 update_venv_req() {
-    echo "$msg_prefix --- UPDATE $venv_file ---"
-    if [ ! -d "$venv" ]; then
-        echo "$msg_prefix ERROR: '$venv' does not exist!"
-        echo "$msg_prefix Please create a new '$venv' using: ./setup_ansible.sh new"
+    echo "$msg_prefix --- UPDATE $venv_file / $venv_freeze_file ---"
+
+    if [ ! -d "$venv_dir" ]; then
+        echo "$msg_prefix ERROR: '$venv_dir' does not exist!"
+        echo "$msg_prefix Please create a new '$venv_dir' using: ./setup_ansible.sh init_venv"
         exit 1
+    fi
+
+    if [ -f "$venv_freeze_file" ]; then
+      echo "$msg_prefix create $venv_freeze_file.bck"
+      cp "$venv_freeze_file" "$venv_freeze_file.bck"
     fi
 
     if [ -f "$venv_file" ]; then
@@ -134,30 +180,51 @@ update_venv_req() {
       cp "$venv_file" "$venv_file.bck"
     fi
 
-    echo "$msg_prefix source $venv/bin/activate"
-    source "$venv/bin/activate"
-    
-    echo "$msg_prefix update $venv_file"
-    pip freeze > "$venv_file"
+    echo "$msg_prefix source $venv_dir/bin/activate"
+    # shellcheck disable=SC1090
+    source "$venv_dir/bin/activate"
 
-    echo "$msg_prefix update no_versions_$venv_file"
-    pip freeze | sed 's/==.*//' | awk '{ print $1}' > "no_versions_$venv_file"
-    
+    echo "$msg_prefix update $venv_file (names only)"
+    "$pip" list --format=freeze | cut -d= -f1 > "$venv_file"
+
+    echo "$msg_prefix update $venv_freeze_file (versions)"
+    "$pip" freeze > "$venv_freeze_file"
+
     echo ""
-    echo "$msg_prefix no_versions_$venv_file is updated"
-    echo "$msg_prefix please push $venv_file in git"
+    echo "$msg_prefix requirements updated:"
+    echo "$msg_prefix - $venv_file"
+    echo "$msg_prefix - $venv_freeze_file"
+    echo "$msg_prefix please push these files in git"
 }
 
-case $1 in
+# Check for python3 venv module and pip
+"$py" -m venv -h &>/dev/null
+if [ $? -ne 0 ]; then
+    echo "$msg_prefix Error: The Python 3 venv module is missing. Please install it manually."
+    exit 1
+fi
+
+"$pip" -h &>/dev/null
+if [ $? -ne 0 ]; then
+    echo "$msg_prefix Error: The Python 3 pip package is missing. Please install it manually."
+    exit 1
+fi
+
+case "${1:-}" in
     init_ansible)
-        init_env
+        echo ""
+        init_ansible
     ;;
     init_venv)
-        new_venv
         echo ""
+        install_os_pkgs_from_file
+        echo ""
+        shift
+        new_venv "$@"
         update_venv_req
     ;;
     update_venv)
+        echo ""
         update_venv_req
     ;;
     *)
@@ -166,7 +233,9 @@ $msg_prefix v$ver
 Usage:
     init_ansible : Initialize Ansible files and folders.
     init_venv    : Initialize Python virtual environment.
-    update_venv  : Update '$venv_file'.
+           -s    : use system site packages.
+           -f    : use pip freezed requirements file ($venv_freeze_file).
+    update_venv  : Update '$venv_file' and '$venv_freeze_file'.
 EOF
     ;;
 esac

@@ -1,0 +1,6 @@
+clang
+libcairo2
+cmake
+pkgconf-pkg-config
+python313-pycairo
+python313-pycairo-devel
