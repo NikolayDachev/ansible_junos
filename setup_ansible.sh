@@ -3,17 +3,19 @@
 # Copyright (c) 2025 Nikolay Dachev
 
 # DEFAULTS
-ver="1.1.0"
+ver="1.1.1"
 py="python3.13"
 pip="pip3.13"
 vaultpwd='1q2w3e'
 localansible=".local"
+requirements="setup_ansible"
 
 # Paths / files
 venv_dir="$localansible/venv"
-venv_file="$localansible/requirements.venv"          # names only
+venv_file="$requirements/requirements.venv"          # names only
 venv_freeze_file="${venv_file}.freeze"              # pinned versions (pip freeze)
-os_pkg_file="$localansible/requirements.pkg"
+os_pkg_file="$requirements/requirements.pkg"
+ansible_collections_file="$requirements/requirements.collections"
 
 msg_prefix="SETUP ANSIBLE:"
 
@@ -157,18 +159,19 @@ new_venv() {
 
     echo ""
     echo "$msg_prefix: Virtual environment '$venv_dir' has been created."
-    echo "$msg_prefix: To activate the virtual environment, run: source $venv_dir/bin/activate"
-    echo "$msg_prefix: To deactivate the virtual environment, run: deactivate"
 }
 
-update_venv_req() {
-    echo "$msg_prefix --- UPDATE $venv_file / $venv_freeze_file ---"
-
+check_venv() {
     if [ ! -d "$venv_dir" ]; then
         echo "$msg_prefix ERROR: '$venv_dir' does not exist!"
         echo "$msg_prefix Please create a new '$venv_dir' using: ./setup_ansible.sh init_venv"
         exit 1
     fi
+}
+
+update_venv_req() {
+    echo "$msg_prefix --- UPDATE $venv_file / $venv_freeze_file ---"
+    check_venv
 
     if [ -f "$venv_freeze_file" ]; then
       echo "$msg_prefix create $venv_freeze_file.bck"
@@ -197,6 +200,40 @@ update_venv_req() {
     echo "$msg_prefix please push these files in git"
 }
 
+ansible_collections() {
+    echo "$msg_prefix --- INSTALL ANSIBLE COLLECTIONS ---"
+    check_venv
+
+    local update_collection=false
+
+    # parse flags (can be anywhere)
+    for arg in "$@"; do
+        case "$arg" in
+            -u) update_collection=true ;;
+        esac
+    done
+
+    if [ ! -f "$ansible_collections_file" ]; then
+        echo "$msg_prefix SKIP: '$ansible_collections_file' does not exist!"
+        return 1
+    fi
+
+    echo "$msg_prefix INFO: $ansible_collections_file collections file found."
+
+    if $update_collection; then
+        ansible_galaxy="ansible-galaxy collection install --upgrade"
+        echo "$msg_prefix: Update existing collections from $ansible_collections_file"
+    else
+        ansible_galaxy="ansible-galaxy collection install"
+        echo "$msg_prefix: Install collections from $ansible_collections_file"
+    fi
+
+    echo "$msg_prefix source $venv_dir/bin/activate"
+    source "$venv_dir/bin/activate"
+    $ansible_galaxy -r "$ansible_collections_file"
+    deactivate
+}
+
 # Check for python3 venv module and pip
 "$py" -m venv -h &>/dev/null
 if [ $? -ne 0 ]; then
@@ -210,7 +247,26 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+venv_msg(){
+    echo "$msg_prefix To activate the virtual environment:   source $venv_dir/bin/activate"
+    echo "$msg_prefix To deactivate the virtual environment: deactivate"
+}
+
 case "${1:-}" in
+    init)
+        echo ""
+        init_ansible
+        echo ""
+        install_os_pkgs_from_file
+        echo ""
+        shift
+        new_venv "$@"
+        echo ""
+        update_venv_req
+        echo ""
+        shift
+        ansible_collections "$@"
+    ;;
     init_ansible)
         echo ""
         init_ansible
@@ -227,15 +283,27 @@ case "${1:-}" in
         echo ""
         update_venv_req
     ;;
+    collections)
+        echo ""
+        shift
+        ansible_collections "$@"
+    ;;
     *)
         cat << EOF
 $msg_prefix v$ver
 Usage:
+    init         : Initialize everything. 
     init_ansible : Initialize Ansible files and folders.
     init_venv    : Initialize Python virtual environment.
            -s    : use system site packages.
            -f    : use pip freezed requirements file ($venv_freeze_file).
     update_venv  : Update '$venv_file' and '$venv_freeze_file'.
+    collections  : Install Ansible collections from file.
+           -u    : update existing collections.
 EOF
     ;;
 esac
+
+echo ""
+venv_msg
+echo ""
