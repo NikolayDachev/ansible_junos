@@ -1,10 +1,16 @@
 ## Init Ansible for juniper 
 
-### Init ansible direcotries and files (if missed)
+### To init everything
+`./setup_ansible.sh init`
+
+### Create ansible direcotries and files (if missed)
 `./setup_ansible.sh init_ansible`
 
-### Init ansible python venv
+### Create ansible python venv
 `./setup_ansible.sh init_venv`
+
+### Install Ansible collections
+`./setup_ansible.sh collections`
 
 ### Ansible vault passowrd
 `cat .local/.vaultpwd`
@@ -12,8 +18,21 @@
 ### Start Ansible venv
 `source .local/venv/bin/activate`
 
+### setup_ansible.sh
+```
+Usage:
+    init         : Initialize everything.
+    init_ansible : Initialize Ansible files and folders.
+    init_venv    : Initialize Python virtual environment.
+           -s    : use system site packages.
+           -f    : use pip freezed requirements file (setup_ansible/requirements.venv.freeze).
+    update_venv  : Update 'setup_ansible/requirements.venv' and 'setup_ansible/requirements.venv.freeze'.
+    collections  : Install Ansible collections from file.
+           -u    : update existing collections.
+```
+
 ### Install junos collection 
-For more details please check [Jiniper device ansible collection](https://galaxy.ansible.com/ui/repo/published/juniper/device/)
+For more details please check [Jiniper device ansible collection](https://galaxy.ansible.com/ui/repo/published/juniper/device/)  
 `ansible-galaxy collection install juniper.device`
 
 ### Patch junos collection 'LooseVersion' is not used in python 3.13+
@@ -32,7 +51,7 @@ For `jvr` please use containerlab under `submodules/containerlab/labs/vjrouter-r
 
 ### Init ansible venv
 ```
-./setup_ansible.sh init_venv
+./setup_ansible.sh init
 ```
 ### Udate submodule and deploy container lab
 ```
